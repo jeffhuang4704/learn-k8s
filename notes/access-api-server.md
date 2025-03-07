@@ -97,13 +97,19 @@ curl ${KUBE_API}/apis/apps/v1/namespaces/default/deployments?watch=true \
 
 ## 2️⃣ using kubectl proxy to access api server
 
+<details><summary>examples</summary>
+
 ```
 kubectl proxy --port=8080 &
 
 curl localhost:8080/apis/apps/v1/deployments
 ```
 
+</details>
+
 ## 3️⃣ using kubectl --raw to access api server
+
+<details><summary>examples</summary>
 
 when the --raw flag is used, the implementation boils down to converting the only argument into an API endpoint URL and invoking the raw REST API client.
 
@@ -120,6 +126,8 @@ $ kubectl replace --raw /api/v1/namespaces/default/pods/mypod -f file.json
 # Sends HTTP DELETE request
 $ kubectl delete --raw /api/v1/namespaces/default/pods
 ```
+
+</details>
 
 ## Reference
 
