@@ -64,7 +64,7 @@ apiVersion: susesecurity.com/v1alpha1
 kind: HelloMessage
 metadata:
 name: example-hellomessage
-namespace: default # Change this if needed
+namespace: default
 spec:
 message: "Hello, Kubernetes!"
 
@@ -74,8 +74,9 @@ message: "Hello, Kubernetes!"
 
 ### observe the content in etcd
 
-```
+<details><summary>steps</summary>
 
+```
 # find etcd pod
 
 kubectl get pod -n kube-system
@@ -112,6 +113,8 @@ etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessag
 
 ```
 
+</details>
+
 ### use curl to watch CR
 
 ```
@@ -120,6 +123,10 @@ etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessag
 
 I would like to use curl to do CRUD for this CRD. API server is stored in $KUBE_API.
 Generate related curl commands.
+
+```
+
+```
 
 ```
 
