@@ -19,38 +19,13 @@ give me a corresponding CR yaml.
 ```
 
 <details><summary>CRD example</summary>
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
+apiVersion: susesecurity.com/v1alpha1
+kind: HelloMessage
 metadata:
-  name: hellomessages.susesecurity.com
+  name: example-hellomessage
+  namespace: default  # Change this if needed
 spec:
-  group: susesecurity.com
-  names:
-    kind: HelloMessage
-    listKind: HelloMessageList
-    plural: hellomessages
-    singular: hellomessage
-  scope: Namespaced
-  versions:
-    - name: v1alpha1
-      served: true
-      storage: true
-      schema:
-        openAPIV3Schema:
-          type: object
-          properties:
-            apiVersion:
-              type: string
-            kind:
-              type: string
-            metadata:
-              type: object
-            spec:
-              type: object
-              properties:
-                message:
-                  type: string
-
+  message: "Hello, Kubernetes!"
 </details>
 
 <details><summary>CR example</summary>
