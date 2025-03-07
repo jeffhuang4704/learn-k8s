@@ -1,12 +1,15 @@
 # learn-k8s
 
-- [2025/03/06 - K8s operator pattern and kubebuilder, by Sam]
+- [2025/03/06 - K8s operator pattern and kubebuilder, by Sam](./https://docs.google.com/presentation/d/17RvRa15re2C4BGS00vQ2oJSfPvnBUryYdt7ZWU1ao5I/edit#slide=id.g33984add883_0_0)
 
-- [2025/03/06 - Kubernetes study group, by Sam]
+- [2025/03/06 - Kubernetes study group, by Sam](./https://docs.google.com/presentation/d/17RvRa15re2C4BGS00vQ2oJSfPvnBUryYdt7ZWU1ao5I/edit#slide=id.g33984add883_0_0)
 
 ```
-material:
-https://github.com/gianlucam76/kubernetes-controller-tutorial/blob/main/docs/custom-resources.md
+material
+    https://github.com/gianlucam76/kubernetes-controller-tutorial/blob/main/docs/custom-resources.md
+
+record
+    attached in gmail invitation
 
 ```
 
@@ -15,5 +18,4 @@ https://github.com/gianlucam76/kubernetes-controller-tutorial/blob/main/docs/cus
 
 ## What's next
 
-- list items
-- list items
+- list TODOs

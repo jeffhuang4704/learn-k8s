@@ -1,10 +1,16 @@
 ## Manipulate CRD and CR Part 1
 
-### CRD
+### CRD (== database table schema)
 
 use databae as analogy, draw diagram
 
-### CR
+### CR (== a row in database table)
+
+### custom controller
+
+-- To process the CR (user's desire) to examine the `spec` and update the `status` field.'  
+-- Controller can process many kinds of CRD.  
+-- Controller can process existing kind of resource, not necessary a new one.
 
 ### A simple example
 
@@ -120,4 +126,127 @@ what's the curl command to use?
 I would like to use curl to do CRUD for this CRD. API server is stored in $KUBE_API.
 Generate related curl commands.
 
+```
+
+### create more CRs
+
+```
+#!/bin/bash
+
+for i in {1..20}
+do
+cat <<EOF > hellomessage-$i.yaml
+apiVersion: susesecurity.com/v1alpha1
+kind: HelloMessage
+metadata:
+  name: hellomessage-$i
+  namespace: default
+spec:
+  message: "Hello, Kubernetes! This is message $i."
+EOF
+done
+
+```
+
+```
+laborant@dev-machine:~/test$ ls -l
+total 84
+-rwxrwxr-x 1 laborant laborant 246 Mar  7 06:36 creaet_cr.sh
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-1.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-10.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-11.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-12.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-13.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-14.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-15.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-16.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-17.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-18.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-19.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-2.yaml
+-rw-rw-r-- 1 laborant laborant 170 Mar  7 06:36 hellomessage-20.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-3.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-4.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-5.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-6.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-7.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-8.yaml
+-rw-rw-r-- 1 laborant laborant 168 Mar  7 06:36 hellomessage-9.yaml
+```
+
+```
+# apply
+kubectl apply -f .
+
+# get
+laborant@dev-machine:~/test$ kubectl get hellomessages.susesecurity.com
+NAME                   AGE
+example-hellomessage   5h11m
+hellomessage-1         31s
+hellomessage-10        31s
+hellomessage-11        31s
+hellomessage-12        31s
+hellomessage-13        31s
+hellomessage-14        31s
+hellomessage-15        31s
+hellomessage-16        31s
+hellomessage-17        31s
+hellomessage-18        31s
+hellomessage-19        31s
+hellomessage-2         31s
+hellomessage-20        31s
+hellomessage-3         31s
+hellomessage-4         31s
+hellomessage-5         31s
+hellomessage-6         31s
+hellomessage-7         31s
+hellomessage-8         31s
+hellomessage-9         31s
+laborant@dev-machine:~/test$
+```
+
+## design considerations
+
+```
+-- scalability concerns arise when the number grows too large
+-- Kubernetes stores all CRs in etcd, which is not optimized for high-volume, high-churn workloads.
+-- The more CRs, the more pressure on the API server, making it slower for all users.
+-- The custom controller will receive many watch/update events, causing increased reconciliation loops.
+-- Processing thousands or millions of CRs can lead to high processing latency.
+-- Efficient Watch Mechanisms. Instead of watching all CRs globally, narrow the watch scope based on labels/selectors.
+-- Cases probably not suitable for CR
+    If you need to store high-churn, short-lived data (e.g., logs, events, temporary states).
+    If your use case involves millions of small objects that frequently change.
+    If queries require complex searches or analytics (better handled by databases).
+
+-- Querying all CRs frequently can cause high CPU and memory usage, affecting cluster performance.
+-- Kubernetes uses etcd, which is a key-value store, not a relational or search-optimized database.
+-- Searching CRs by arbitrary fields (e.g., "find all CRs where status=failed") requires scanning all CRs, making it slow.
+-- CRs are NOT optimized for queries (Kubernetes API lacks advanced filtering).
+-- Use Labels & Field Selectors for basic filtering (kubectl get mycr -l owner=team-a).
+-- Track dependencies via CR fields (e.g., spec.dependsOn).
+-- Use finalizers to ensure a CR is fully processed before deletion.
+-- Implement retry logic (return ctrl.Result{RequeueAfter: 10 \* time.Second}, nil) to handle missing dependencies.
+-- Define execution order using dependsOn fields in CRs
+-- Dealing with High-Churn CRs (Frequent Creation/Deletion)
+    Use TTL Controller (ttlSecondsAfterFinished) for auto-cleanup.
+    Aggregate multiple small CRs into one batch CR (process them together).
+    Avoid using CRs for ephemeral state (consider using Jobs or external storage).
+
+When designing a CRD-based solution, think about:
+✅ Performance → Minimize etcd impact & optimize controller logic.
+✅ Scalability → Use informers, batch processing, and indexing.
+✅ Searchability → Consider external databases if complex queries are needed.
+✅ Reliability → Handle dependencies, failures, and retries properly.
+✅ Security → Use RBAC, webhooks, and limit permissions.
+```
+
+```
+#prompt
+we can use kubectl to get events, how does this works in custom controller?  In my controller code, how to leverage this mechanism to report error.
+
+How Events Work in Kubernetes:
+    Events are namespaced objects that are associated with a specific Kubernetes object (such as a Pod, CR, or Deployment).
+    Events are stored in etcd and are available through the Kubernetes API.
+    You can retrieve events with kubectl get events and filter them based on object names, namespaces, or event types (e.g., Warning or Normal).
 ```
