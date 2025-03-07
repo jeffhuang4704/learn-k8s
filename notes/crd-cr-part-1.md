@@ -6,7 +6,7 @@ use databae as analogy, draw diagram
 
 ### CR
 
-### use curl
+### A simple example
 
 ```
 # use chatgpt to create a CRD
@@ -16,12 +16,55 @@ in k8s, help me to generate a CRD yaml. I just need a message with string type. 
 # prompt
 give me a corresponding CR yaml.
 
-# prompt
-I would like to use curl to do CRUD for this CRD. API server is stored in $KUBE_API.
-Generate related curl commands.
 ```
 
-### try to observe the content in etcd
+<details><summary>CRD example</summary>
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: hellomessages.susesecurity.com
+spec:
+  group: susesecurity.com
+  names:
+    kind: HelloMessage
+    listKind: HelloMessageList
+    plural: hellomessages
+    singular: hellomessage
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              properties:
+                message:
+                  type: string
+
+</details>
+
+<details><summary>CR example</summary>
+apiVersion: susesecurity.com/v1alpha1
+kind: HelloMessage
+metadata:
+  name: example-hellomessage
+  namespace: default  # Change this if needed
+spec:
+  message: "Hello, Kubernetes!"
+
+</details>
+
+### observe the content in etcd
 
 ```
 # find etcd pod
@@ -40,14 +83,24 @@ export ETCDCTL_ENDPOINTS=https://127.0.0.1:2379
 # List all keys stored in etcd
 etcdctl get "" --prefix --keys-only
 
+>> /registry/susesecurity.com/hellomessages/default/example-hellomessage
+
 # Get content given a key
-etcdctl get /registry/serviceaccounts/ns1/default
+etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessage
 
 # notes
-    /registry/pods/ - Stores pod information
-    /registry/deployments/ - Stores deployments
-    /registry/services/ - Stores services
-    /registry/nodes/ - Stores node information
-    /registry/secrets/ - Stores secrets (encrypted if encryption is enabled)
+    /registry/pods/         - Stores pod information
+    /registry/deployments/  - Stores deployments
+    /registry/services/     - Stores services
+    /registry/nodes/        - Stores node information
+    /registry/secrets/      - Stores secrets (encrypted if encryption is enabled)
 
+```
+
+### use curl to watch CR
+
+```
+# prompt
+I would like to use curl to do CRUD for this CRD. API server is stored in $KUBE_API.
+Generate related curl commands.
 ```
