@@ -2,13 +2,14 @@
 
 ## methods
 
--- curl
--- kubectl proxy
--- kubectl --raw
+1️⃣ curl  
+2️⃣ kubectl proxy  
+3️⃣ Calling Kubernetes API using kubectl raw mode  
+4️⃣ kubectl scale deployment sleep --replicas=2 -v 6
 
-## curl
+## 1️⃣ using curl to access api server
 
-<details><summary>scripts</summary>
+<details><summary>examples</summary>
 
 Extract API Server Endpoint
 
@@ -94,6 +95,32 @@ curl ${KUBE_API}/apis/apps/v1/namespaces/default/deployments?watch=true \
 
 </details>
 
-### Reference
+## 2️⃣ using kubectl proxy to access api server
+
+```
+kubectl proxy --port=8080 &
+
+curl localhost:8080/apis/apps/v1/deployments
+```
+
+## 3️⃣ using kubectl --raw to access api server
+
+when the --raw flag is used, the implementation boils down to converting the only argument into an API endpoint URL and invoking the raw REST API client.
+
+```
+# Sends HTTP GET request
+$ kubectl get --raw /api/v1/namespaces/default/pods
+
+# Sends HTTP POST request
+$ kubectl create --raw /api/v1/namespaces/default/pods -f file.yaml
+
+# Sends HTTP PUT request
+$ kubectl replace --raw /api/v1/namespaces/default/pods/mypod -f file.json
+
+# Sends HTTP DELETE request
+$ kubectl delete --raw /api/v1/namespaces/default/pods
+```
+
+## Reference
 
 [How To Call Kubernetes API using Simple HTTP Client](https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/)
