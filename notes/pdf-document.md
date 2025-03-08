@@ -351,10 +351,22 @@ I can reuse in my custom controller. This boilerplate code should handle all com
 Summarize all the practices. Add code comment.
 ```
 
+**concept explain**
+
 ```
 in k8s kubebuilder, explain the concept of "finalizer"
 
 in k8s kubebuilder, explain how to handle conflict when doing CR management
 
 in k8s kubebuilder, explain how to do Status update in Reconcile()
+```
+
+**learn from existing k8s code**
+
+```
+in k8s custom controller development, show me how Reconcile() works in Deployment controller.
+Give me simplified code with comment. Show me the exact source code location.
+
+in k8s custom controller development, show me how Reconcile() works in Deployment controller.
+give me detailed breakdown of the actual Kubernetes source
 ```
