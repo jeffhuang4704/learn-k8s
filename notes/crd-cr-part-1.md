@@ -10,20 +10,20 @@ On the other hand, a **Custom Resource (CR)** is similar to **a row in a databas
 
 We use Custom Resource Definitions (CRDs) in Kubernetes to **extend** its functionality beyond the built-in resources like Pods, Services, or Deployments. CRDs allow us to define our own custom resources with specific fields and behavior, tailored to the needs of our application or infrastructure.
 
-### custom controller
+### Custom controller
 
 1. The custom controller is responsible for reconciling the CR and ensuring the desired state is achieved
 
 - Process the CR (User's intent) from `spec` and **reconcile** the desired and actual states — this is where your business logic comes into play.
 - Update the `status` field
-- Comply with rules defined by k8s, understand its behavior and mechanism (ex: retry)
+- Comply with Kubernetes' rules and best practices, understanding its behavior and mechanisms (e.g., reconciliation loops, retries, conflict management).
 
-2. A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs)
+2. A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
 3. A custom controller can process existing types of resources, not just custom ones (CRDs).
 
 ### draw a diagram to illustate the flow
 
-In a typical scenario, when a product is installed onto a Kubernetes cluster, it defines a Custom Resource Definition (CRD) to introduce new resource types that Kubernetes understands. This CRD acts as a schema, enabling users to create and manage instances of the resource as Custom Resources (CRs).
+In a typical scenario, when a product is installed onto a Kubernetes cluster, it defines a CRD to introduce new resource types that Kubernetes understands. This CRD acts as a schema, enabling users to create and manage instances of the resource as CRs.
 
 Once the CRD is in place, various actors can manipulate the CRs.
 
