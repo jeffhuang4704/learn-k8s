@@ -151,6 +151,8 @@ func (r *PdfDocumentReconciler) createJob(pdfDoc toolsv1.PdfDocument) (batchv1.J
 
 ### 3️⃣ Run
 
+Your Kubebuilder controller is using `ctrl.GetConfigOrDie()` to obtain the Kubernetes configuration. This function, provided by controller-runtime, automatically detects and loads the Kubernetes configuration based on the following default precedence: (1)In-cluster configuration (2) Out-of-cluster configuration (Default ~/.kube/config)
+
 <details><summary>...</summary>
 
 ```
