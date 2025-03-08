@@ -277,7 +277,56 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 </details>
 
-### 5️⃣ Reference
+## 5️⃣ Design considerations
+
+```
+
+-- scalability concerns arise when the number grows too large
+-- Kubernetes stores all CRs in etcd, which is not optimized for high-volume, high-churn workloads.
+-- The more CRs, the more pressure on the API server, making it slower for all users.
+-- The custom controller will receive many watch/update events, causing increased reconciliation loops.
+-- Processing thousands or millions of CRs can lead to high processing latency.
+-- Efficient Watch Mechanisms. Instead of watching all CRs globally, narrow the watch scope based on labels/selectors.
+-- Cases probably not suitable for CR
+If you need to store high-churn, short-lived data (e.g., logs, events, temporary states).
+If your use case involves millions of small objects that frequently change.
+If queries require complex searches or analytics (better handled by databases).
+
+-- Querying all CRs frequently can cause high CPU and memory usage, affecting cluster performance.
+-- Kubernetes uses etcd, which is a key-value store, not a relational or search-optimized database.
+-- Searching CRs by arbitrary fields (e.g., "find all CRs where status=failed") requires scanning all CRs, making it slow.
+-- CRs are NOT optimized for queries (Kubernetes API lacks advanced filtering).
+-- Use Labels & Field Selectors for basic filtering (kubectl get mycr -l owner=team-a).
+-- Track dependencies via CR fields (e.g., spec.dependsOn).
+-- Use finalizers to ensure a CR is fully processed before deletion.
+-- Implement retry logic (return ctrl.Result{RequeueAfter: 10 \* time.Second}, nil) to handle missing dependencies.
+-- Define execution order using dependsOn fields in CRs
+-- Dealing with High-Churn CRs (Frequent Creation/Deletion)
+Use TTL Controller (ttlSecondsAfterFinished) for auto-cleanup.
+Aggregate multiple small CRs into one batch CR (process them together).
+Avoid using CRs for ephemeral state (consider using Jobs or external storage).
+
+When designing a CRD-based solution, think about:
+✅ Performance → Minimize etcd impact & optimize controller logic.
+✅ Scalability → Use informers, batch processing, and indexing.
+✅ Searchability → Consider external databases if complex queries are needed.
+✅ Reliability → Handle dependencies, failures, and retries properly.
+✅ Security → Use RBAC, webhooks, and limit permissions.
+
+```
+
+```
+#prompt
+we can use kubectl to get events, how does this works in custom controller? In my controller code, how to leverage this mechanism to report error.
+
+How Events Work in Kubernetes:
+Events are namespaced objects that are associated with a specific Kubernetes object (such as a Pod, CR, or Deployment).
+Events are stored in etcd and are available through the Kubernetes API.
+You can retrieve events with kubectl get events and filter them based on object names, namespaces, or event types (e.g., Warning or Normal).
+
+```
+
+### 6️⃣ Reference
 
 <details><summary>...</summary>
 
