@@ -1,4 +1,4 @@
-## Manipulate CRD and CR Part 1
+## Manipulate CRD and CR wihtout coding - Part 1
 
 ### CRD (== database table schema)
 
@@ -6,13 +6,23 @@ use databae as analogy, draw diagram
 
 ### CR (== a row in database table)
 
+### Why CRD
+
 ### custom controller
 
 -- To process the CR (user's desire) to examine the `spec` and update the `status` field.'  
 -- Controller can process many kinds of CRD.  
 -- Controller can process existing kind of resource, not necessary a new one.
 
-### A simple example
+### draw a diagram to illustate the flow
+
+CRD => CR => Custom Controller
+
+CRD: Who can do what?
+CR: Who can do what? UI can use it. User can modify it via kubectl. CI/CD tool can manipulate it..
+Custom Controller: What's the function this component need to do?
+
+### How to generate a sample CRD
 
 ```
 # use chatgpt to create a CRD
@@ -69,10 +79,10 @@ spec:
 apiVersion: susesecurity.com/v1alpha1
 kind: HelloMessage
 metadata:
-name: example-hellomessage
-namespace: default
+  name: example-hellomessage
+  namespace: default
 spec:
-message: "Hello, Kubernetes!"
+  message: "Hello, Kubernetes!"
 
 ```
 
@@ -114,6 +124,22 @@ etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessag
 ```
 
 </details>
+
+### use curl to do CRUD
+
+Extract API Server Endpoint and certs
+
+```
+export KUBE_API=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.server}')
+
+kubectl config view --raw -o jsonpath='{.users[0].user.client-certificate-data}' | base64 -d > ~/client.crt
+kubectl config view --raw -o jsonpath='{.users[0].user.client-key-data}' | base64 -d > ~/client.key
+kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d > ~/ca.crt
+```
+
+```
+TODO:
+```
 
 ### use curl to watch CR
 
