@@ -268,9 +268,9 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 // Makefile
 .PHONY: build
   1 build: manifests generate fmt vet ## Build manager binary.
-    go build -o bin/manager cmd/main.go
-
 	go build -gcflags=all="-N -l" -o bin/manager cmd/main.go
+
+	go build -o bin/manager cmd/main.go			(was)
 ```
 
 </details>
