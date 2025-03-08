@@ -1,4 +1,4 @@
-## markdown to pdf controller
+## markdown to pdf controller (hello world)
 
 Extend the Kubernetes API server functionality by implementing a custom controller that allows users to submit a Markdown file and generate a corresponding PDF. Users can submit the task via kubectl by creating a custom resource.
 
@@ -240,7 +240,34 @@ Done!
 
 ### debug
 
-TODO: delve
+```
+// start via delve debugger
+laborant@dev-machine:~/projects/pdfdocument/bin$ dlv exec manager
+Type 'help' for list of commands.
+(dlv)
+
+
+(dlv) funcs Reconcile
+....
+example.com/pdfdocument/internal/controller.(*PdfDocumentReconciler).Reconcile
+
+// set breakpoint on Reconcile()
+(dlv)  b example.com/pdfdocument/internal/controller.(*PdfDocumentReconciler).Reconcile
+
+// continue
+(dlv) c
+```
+
+Change buld option if necessary, add `-gcflags=all="-N -l"`
+
+```
+// Makefile
+.PHONY: build
+  1 build: manifests generate fmt vet ## Build manager binary.
+    go build -o bin/manager cmd/main.go
+
+	go build -gcflags=all="-N -l" -o bin/manager cmd/main.go
+```
 
 ### Reference
 
