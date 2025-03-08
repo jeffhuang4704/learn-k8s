@@ -282,10 +282,11 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 categorized and concise version of your design considerations:
 
 1. Scalability & Performance
-   Too many CRs increase API server load and processing latency.
-   etcd is not optimized for high-volume, high-churn workloads.
-   Frequent watch/update events trigger excessive reconciliation loops.
-   Querying all CRs frequently leads to high CPU/memory usage.
+
+- Too many CRs increase API server load and processing latency.
+- etcd is not optimized for high-volume, high-churn workloads.
+- Frequent watch/update events trigger excessive reconciliation loops.
+- Querying all CRs frequently leads to high CPU/memory usage.
 
 2. CR Suitability & Storage Considerations
    CRs are not ideal for:
