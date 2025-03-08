@@ -2,13 +2,17 @@
 
 ### CRD (== database table schema), CR (== a row in database table)
 
-In Kubernetes, a Custom Resource Definition (CRD) is like a database schema. It defines the structure of a custom resource, specifying the kind of data it holds and how it should be validated. On the other hand, a Custom Resource (CR) is similar to a row in a database table. It represents an actual instance of the data defined by the CRD, with specific values filled in according to the schema. Just like rows in a database are instances of a schema, CRs are instances of a CRD in Kubernetes.
+In Kubernetes, a Custom **Resource Definition (CRD)** is like a **database schema**. It defines the structure of a custom resource, specifying the kind of data it holds and how it should be validated.
+
+On the other hand, a **Custom Resource (CR)** is similar to **a row in a database table**. It represents an actual instance of the data defined by the CRD, with specific values filled in according to the schema.
 
 ### Why CRD
 
-We use Custom Resource Definitions (CRDs) in Kubernetes to extend its functionality beyond the built-in resources like Pods, Services, or Deployments. CRDs allow us to define our own custom resources with specific fields and behavior, tailored to the needs of our application or infrastructure.
+We use Custom Resource Definitions (CRDs) in Kubernetes to **extend** its functionality beyond the built-in resources like Pods, Services, or Deployments. CRDs allow us to define our own custom resources with specific fields and behavior, tailored to the needs of our application or infrastructure.
 
 ### custom controller
+
+**The custom controller is responsible for reconciling the CR and ensuring the desired state is achieved.**
 
 1. Main task in the custom controller
 
