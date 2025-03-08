@@ -281,20 +281,23 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 categorized and concise version of your design considerations:
 
-1. Scalability & Performance
+1. **Scalability & Performance**
 
 - Too many CRs increase API server load and processing latency.
 - etcd is not optimized for high-volume, high-churn workloads.
 - Frequent watch/update events trigger excessive reconciliation loops.
 - Querying all CRs frequently leads to high CPU/memory usage.
 
-2. CR Suitability & Storage Considerations
-   CRs are not ideal for:
-   High-churn, short-lived data (e.g., logs, events).
-   Millions of small, frequently changing objects.
-   Complex queries or analytics (better handled by databases).
-   Kubernetes uses etcd (a key-value store), not a relational or search-optimized database.
-   Searching by arbitrary fields (e.g., status=failed) requires scanning all CRs.
+2. **CR Suitability & Storage Considerations**
+
+- CRs are not ideal for:
+
+  High-churn, short-lived data (e.g., logs, events).
+  Millions of small, frequently changing objects.
+  Complex queries or analytics (better handled by databases).
+
+- Kubernetes uses etcd (a key-value store), not a relational or search-optimized database.
+- Searching by arbitrary fields (e.g., status=failed) requires scanning all CRs.
 
 3. Optimizations & Best Practices
    Efficient Watching: Use label/field selectors to narrow watch scope.
