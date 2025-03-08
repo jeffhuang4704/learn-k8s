@@ -329,7 +329,7 @@ You can retrieve events with kubectl get events and filter them based on object 
 
 </details>
 
-### 6️⃣ Reference
+## 6️⃣ Reference
 
 <details><summary>...</summary>
 
@@ -342,6 +342,8 @@ You can retrieve events with kubectl get events and filter them based on object 
 </details>
 
 ## 7️⃣ Some prompts
+
+<details><summary>...</summary>
 
 **boilerplate code for Reconcile()**
 
@@ -370,3 +372,5 @@ Give me simplified code with comment. Show me the exact source code location.
 in k8s custom controller development, show me how Reconcile() works in Deployment controller.
 give me detailed breakdown of the actual Kubernetes source
 ```
+
+</details>
