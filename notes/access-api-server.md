@@ -135,13 +135,19 @@ $ kubectl delete --raw /api/v1/namespaces/default/pods
   <img src="./materils/diagram1.png" width="85%">
 </p>
 
+---
+
 <p align="center">
   <img src="./materils/diagram2.png" width="85%">
 </p>
 
+---
+
 <p align="center">
   <img src="./materils/diagram3.png" width="85%">
 </p>
+
+---
 
 <p align="center">
   <img src="./materils/diagram4.png" width="85%">
