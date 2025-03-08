@@ -46,7 +46,7 @@ We use Custom Resource Definitions (CRDs) in Kubernetes to **extend** its functi
 
 ### How to generate a sample CRD
 
-<details><summary>CRD example</summary>
+<details><summary>create an example CRD..</summary>
 
 ```
 # use chatgpt to create a CRD
@@ -64,37 +64,37 @@ give me a corresponding CR yaml.
 <details><summary>CRD example</summary>
 
 ```
-
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-name: hellomessages.susesecurity.com
+  name: hellomessages.susesecurity.com
 spec:
-group: susesecurity.com
-names:
-kind: HelloMessage
-listKind: HelloMessageList
-plural: hellomessages
-singular: hellomessage
-scope: Namespaced
-versions: - name: v1alpha1
-served: true
-storage: true
-schema:
-openAPIV3Schema:
-type: object
-properties:
-apiVersion:
-type: string
-kind:
-type: string
-metadata:
-type: object
-spec:
-type: object
-properties:
-message:
-type: string
+  group: susesecurity.com
+  names:
+    kind: HelloMessage
+    listKind: HelloMessageList
+    plural: hellomessages
+    singular: hellomessage
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              properties:
+                message:
+                  type: string
 
 ```
 
@@ -103,14 +103,13 @@ type: string
 <details><summary>CR example</summary>
 
 ```
-
 apiVersion: susesecurity.com/v1alpha1
 kind: HelloMessage
 metadata:
-name: example-hellomessage
-namespace: default
+  name: example-hellomessage
+  namespace: default
 spec:
-message: "Hello, Kubernetes!"
+  message: "Hello, Kubernetes!"
 
 ```
 
