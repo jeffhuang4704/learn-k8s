@@ -277,7 +277,7 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 </details>
 
-## 5️⃣ Some considerations for a production-ready custom controller (not exhaustive)
+## 5️⃣ Some design considerations (not exhaustive)
 
 <details><summary>..</summary>
 
