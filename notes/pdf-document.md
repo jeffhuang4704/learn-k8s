@@ -279,6 +279,35 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 ### 5️⃣ Some design considerations (not exhaustive)
 
+categorized and concise version of your design considerations:
+
+1. Scalability & Performance
+   Too many CRs increase API server load and processing latency.
+   etcd is not optimized for high-volume, high-churn workloads.
+   Frequent watch/update events trigger excessive reconciliation loops.
+   Querying all CRs frequently leads to high CPU/memory usage.
+
+2. CR Suitability & Storage Considerations
+   CRs are not ideal for:
+   High-churn, short-lived data (e.g., logs, events).
+   Millions of small, frequently changing objects.
+   Complex queries or analytics (better handled by databases).
+   Kubernetes uses etcd (a key-value store), not a relational or search-optimized database.
+   Searching by arbitrary fields (e.g., status=failed) requires scanning all CRs.
+
+3. Optimizations & Best Practices
+   Efficient Watching: Use label/field selectors to narrow watch scope.
+   Querying CRs: Use labels & field selectors for filtering (kubectl get mycr -l owner=team-a).
+   Handling Dependencies:
+   Track dependencies via CR fields (spec.dependsOn).
+   Use finalizers to ensure processing before deletion.
+   Implement retry logic (RequeueAfter: 10s) for missing dependencies.
+   Define execution order with dependsOn fields.
+   Dealing with High-Churn CRs:
+   Use TTL controller (ttlSecondsAfterFinished) for auto-cleanup.
+   Batch multiple small CRs into one for efficiency.
+   Avoid using CRs for ephemeral state—consider Jobs or external storage.
+
 <details><summary>..</summary>
 
 ```
