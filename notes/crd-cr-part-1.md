@@ -19,8 +19,11 @@ We use Custom Resource Definitions (CRDs) in Kubernetes to **extend** its functi
 - Process the CR (User's intent) and reconcile the desired and actual states—this is where your business logic comes into play.
 - Update the status Field
 
-2. A custom controller in Kubernetes can be designed to process many kinds of Custom Resource Definitions (CRDs). Controllers can be written to handle multiple CRDs within the same controller logic, allowing them to manage different types of custom resources in a Kubernetes cluster.
-3. A custom controller in Kubernetes can process existing types of resources, not just custom ones (CRDs). While custom controllers are often designed to manage Custom Resources (CRs) defined by a Custom Resource Definition (CRD), they can also be used to manage and reconcile built-in Kubernetes resources such as Pods, Deployments, Services, ConfigMaps, and more.
+2. A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs)
+
+- Controllers can be written to handle multiple CRDs within the same controller logic, allowing them to manage different types of custom resources in a Kubernetes cluster.
+
+3. A custom controller can process existing types of resources, not just custom ones (CRDs).
 
 ### draw a diagram to illustate the flow
 
