@@ -2,16 +2,25 @@
 
 Extend the Kubernetes API server functionality by implementing a custom controller that allows users to submit a Markdown file and generate a corresponding PDF. Users can submit the task via kubectl by creating a custom resource.
 
-### 1️⃣ kubebuilder
+### 1️⃣ create project using kubebuilder
+
+<details><summary>...</summary>
 
 ```
+mkdir -p ~/projects/pdfdocument
+cd ~/projects/pdfdocument
+
 kubebuilder init --domain example.com --repo example.com/pdfdocument
 kubebuilder create api --group tools --version v1 --kind PdfDocument
 ```
 
+</details>
+
 ### 2️⃣ code
 
 <details><summary>...</summary>
+
+🅰️ modify the data structure (schema)
 
 `// api/v1/pdfdocument_types.go`
 
@@ -35,9 +44,12 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
-	// pdfdocumentv1 "susesecurity.com/pdfdocument/api/v1"
+
+	// toolsv1 "example.com/pdfdocument/api/v1"
 )
 ```
+
+🅱️ Reconcile
 
 ```
 func (r *PdfDocumentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
@@ -142,19 +154,42 @@ func (r *PdfDocumentReconciler) createJob(pdfDoc toolsv1.PdfDocument) (batchv1.J
 <details><summary>...</summary>
 
 ```
-make run
+laborant@dev-machine:~/projects/pdfdocument$ make run
+/home/laborant/projects/pdfdocument/bin/controller-gen rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+/home/laborant/projects/pdfdocument/bin/controller-gen object:headerFile="hack/boilerplate.go.txt" paths="./..."
+go fmt ./...
+go vet ./...
+go run ./cmd/main.go
+
 ```
 
 Create CRD (just like product installation)
 
 ```
-# /home/jeff/myprojects/pdfdocument/config/crd/bases/pdfdocument.susesecurity.com_pdfdocuments.yaml
+# CRD yaml
+laborant@dev-machine:~/projects/pdfdocument$ vim ./config/crd/bases/tools.example.com_pdfdocuments.yaml
+
+# create CRD
+laborant@dev-machine:~/projects/pdfdocument$ kubectl apply -f ./config/crd/bases/tools.example.com_pdfdocuments.yaml
+customresourcedefinition.apiextensions.k8s.io/pdfdocuments.tools.example.com created
+
+# view CRD
+laborant@dev-machine:~/projects/pdfdocument$ kubectl get crds
+NAME                                         CREATED AT
+pdfdocuments.tools.example.com               2025-03-08T07:05:12Z
+
+# view CRD definition
+laborant@dev-machine:~/projects/pdfdocument$ kubectl get crd pdfdocuments.tools.example.com -oyaml
+
+# view CR
+laborant@dev-machine:~/projects/pdfdocument$ kubectl get pdfdocuments.tools.example.com
+No resources found in default namespace.
 ```
 
 Create CR (just like user submit request)
 
 ```
-laborant@dev-machine:~/projects/pdfdocument/config/crd/bases$ cat cr.yaml
+// cr.yaml
 apiVersion: tools.example.com/v1
 kind: PdfDocument
 metadata:
@@ -171,7 +206,9 @@ Copy PDF out
 
 ```
 # check the pod
-kubectl get pods --watch
+laborant@dev-machine:~/projects/pdfdocument$ kubectl get pods --watch
+NAME                        READY   STATUS    RESTARTS   AGE
+sample-document-job-nhqcj   1/1     Running   0          28m
 
 # step - 1
 laborant@dev-machine:~$  kubectl cp sample-document-job-nhqcj:/data/my-document.pdf ${PWD}/my-document.pdf
@@ -184,6 +221,11 @@ laborant@dev-machine:~$
 
 # step - 2
 # exit to WSL
+cd /mnt/c/demo
+
+# get playground id
+labctl playground list
+
 jeff@SUSE-387793:/mnt/c/demo ()$ labctl cp 67cbbe726a18929a7ce141ec:~/my-document.pdf .
 Warning: Permanently added '[127.0.0.1]:45386' (ED25519) to the list of known hosts.
 Done!
@@ -195,6 +237,10 @@ Done!
 </p>
 
 </details>
+
+### debug
+
+TODO: delve
 
 ### Reference
 
