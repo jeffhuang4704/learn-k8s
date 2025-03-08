@@ -7,21 +7,20 @@ Extend the Kubernetes API server functionality by implementing a custom controll
 ```
 kubebuilder init --domain example.com --repo example.com/pdfdocument
 kubebuilder create api --group tools --version v1 --kind PdfDocument
-
 ```
 
 ### 2️⃣ code
 
-// api/v1/pdfdocument_types.go
+<details><summary>...</summary>
+
+`// api/v1/pdfdocument_types.go`
 
 ```
-
-
         DocumentName string `json:"documentName,omitempty"`
         Text         string `json:"text,omitempty"`
 ```
 
-// internal/controller/pdfdocument_controller.go
+`// internal/controller/pdfdocument_controller.go`
 
 ```
 import (
@@ -136,7 +135,11 @@ func (r *PdfDocumentReconciler) createJob(pdfDoc toolsv1.PdfDocument) (batchv1.J
 }
 ```
 
+</details>
+
 ### 3️⃣ Run
+
+<details><summary>...</summary>
 
 ```
 make run
@@ -167,6 +170,9 @@ spec:
 Copy PDF out
 
 ```
+# check the pod
+kubectl get pods --watch
+
 # step - 1
 laborant@dev-machine:~$  kubectl cp sample-document-job-nhqcj:/data/my-document.pdf ${PWD}/my-document.pdf
 Defaulted container "main" out of: main, store-to-md (init), convert-to-pdf (init)
@@ -184,10 +190,20 @@ Done!
 
 ```
 
+<p align="center">
+  <img src="./materils/md2pdf2.png" width="70%">
+</p>
+
+</details>
+
 ### Reference
+
+<details><summary>...</summary>
 
 [Writing Kubernetes Controllers](https://www.youtube.com/watch?v=q7b23612pSc)
 
 <p align="center">
-  <img src="./materils/md2pdf1.png" width="90%">
+  <img src="./materils/md2pdf1.png" width="70%">
 </p>
+
+</details>
