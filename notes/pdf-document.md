@@ -1,4 +1,4 @@
-## markdown to pdf controller (hello world)
+## (Hello World) markdown to pdf controller
 
 Extend the Kubernetes API server functionality by implementing a custom controller that allows users to submit a Markdown file and generate a corresponding PDF. Users can submit the task via kubectl by creating a custom resource.
 
@@ -277,10 +277,11 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 </details>
 
-## 5️⃣ Design considerations
+## 5️⃣ Some considerations for a production-ready custom controller (not exhaustive)
+
+<details><summary>..</summary>
 
 ```
-
 -- scalability concerns arise when the number grows too large
 -- Kubernetes stores all CRs in etcd, which is not optimized for high-volume, high-churn workloads.
 -- The more CRs, the more pressure on the API server, making it slower for all users.
@@ -325,6 +326,8 @@ Events are stored in etcd and are available through the Kubernetes API.
 You can retrieve events with kubectl get events and filter them based on object names, namespaces, or event types (e.g., Warning or Normal).
 
 ```
+
+</details>
 
 ### 6️⃣ Reference
 
