@@ -240,6 +240,10 @@ Done!
 
 ### debug
 
+Being able to trace the code is very helpful, as it allows you to examine the data structure at runtime. Delve is your best friend!
+
+<details><summary>...</summary>
+
 ```
 // start via delve debugger
 laborant@dev-machine:~/projects/pdfdocument/bin$ dlv exec manager
@@ -268,6 +272,8 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 	go build -gcflags=all="-N -l" -o bin/manager cmd/main.go
 ```
+
+</details>
 
 ### Reference
 
