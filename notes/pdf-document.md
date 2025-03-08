@@ -2,7 +2,7 @@
 
 Extend the Kubernetes API server functionality by implementing a custom controller that allows users to submit a Markdown file and generate a corresponding PDF. Users can submit the task via kubectl by creating a custom resource.
 
-### 1️⃣ create project using kubebuilder
+### 1️⃣ Create project using Kubebuilder
 
 <details><summary>...</summary>
 
@@ -16,7 +16,7 @@ kubebuilder create api --group tools --version v1 --kind PdfDocument
 
 </details>
 
-### 2️⃣ code
+### 2️⃣ Code
 
 <details><summary>...</summary>
 
@@ -238,7 +238,7 @@ Done!
 
 </details>
 
-### debug
+### 4️⃣ Debug
 
 Being able to trace the code is very helpful, as it allows you to examine the data structure at runtime. Delve is your best friend!
 
