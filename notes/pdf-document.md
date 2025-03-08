@@ -1,6 +1,8 @@
-## md to pdf controller
+## markdown to pdf controller
 
-### kubebuilder
+Extend the Kubernetes API server functionality by implementing a custom controller that allows users to submit a Markdown file and generate a corresponding PDF. Users can submit the task via kubectl by creating a custom resource.
+
+### 1️⃣ kubebuilder
 
 ```
 kubebuilder init --domain example.com --repo example.com/pdfdocument
@@ -8,7 +10,7 @@ kubebuilder create api --group tools --version v1 --kind PdfDocument
 
 ```
 
-### code
+### 2️⃣ code
 
 // api/v1/pdfdocument_types.go
 
@@ -134,16 +136,19 @@ func (r *PdfDocumentReconciler) createJob(pdfDoc toolsv1.PdfDocument) (batchv1.J
 }
 ```
 
+### 3️⃣ Run
+
 ```
 make run
 ```
 
+Create CRD (just like product installation)
+
 ```
-# CRD file
 # /home/jeff/myprojects/pdfdocument/config/crd/bases/pdfdocument.susesecurity.com_pdfdocuments.yaml
 ```
 
-CR
+Create CR (just like user submit request)
 
 ```
 laborant@dev-machine:~/projects/pdfdocument/config/crd/bases$ cat cr.yaml
@@ -178,3 +183,11 @@ Warning: Permanently added '[127.0.0.1]:45386' (ED25519) to the list of known ho
 Done!
 
 ```
+
+### Reference
+
+[Writing Kubernetes Controllers](https://www.youtube.com/watch?v=q7b23612pSc)
+
+<p align="center">
+  <img src="./materils/md2pdf1.png" width="90%">
+</p>
