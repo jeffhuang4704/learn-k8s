@@ -277,7 +277,7 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 </details>
 
-## 5️⃣ Some design considerations (not exhaustive)
+### 5️⃣ Some design considerations (not exhaustive)
 
 <details><summary>..</summary>
 
@@ -329,7 +329,7 @@ You can retrieve events with kubectl get events and filter them based on object 
 
 </details>
 
-## 6️⃣ Reference
+### 6️⃣ Reference
 
 <details><summary>...</summary>
 
@@ -341,7 +341,7 @@ You can retrieve events with kubectl get events and filter them based on object 
 
 </details>
 
-## 7️⃣ Some prompts
+### 7️⃣ Some prompts
 
 <details><summary>...</summary>
 
