@@ -343,10 +343,18 @@ You can retrieve events with kubectl get events and filter them based on object 
 
 ## 7️⃣ Some prompts
 
+**boilerplate code for Reconcile()**
+
 ```
-in k8s with kubebuilder, give me a boilerplate code for Reconcile() that I can reuse in my custom controller. This boilerplate code should handle all common scenarios. Summarize all the practices. Add code comment.
+in k8s with kubebuilder, give me a boilerplate code for Reconcile() that
+I can reuse in my custom controller. This boilerplate code should handle all common scenarios.
+Summarize all the practices. Add code comment.
 ```
 
 ```
-in k8s kubebuilder, explain the concept of "xxx"
+in k8s kubebuilder, explain the concept of "finalizer"
+
+in k8s kubebuilder, explain how to handle conflict when doing CR management
+
+in k8s kubebuilder, explain how to do Status update in Reconcile()
 ```
