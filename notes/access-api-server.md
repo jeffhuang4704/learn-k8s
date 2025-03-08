@@ -131,6 +131,8 @@ $ kubectl delete --raw /api/v1/namespaces/default/pods
 
 ## Diagrams
 
+<details><summary>cheatsheet</summary>
+
 <p align="center">
   <img src="./materils/diagram1.png" width="85%">
 </p>
@@ -153,8 +155,10 @@ $ kubectl delete --raw /api/v1/namespaces/default/pods
   <img src="./materils/diagram4.png" width="85%">
 </p>
 
+</details>
+
 ## Reference
 
-[How To Call Kubernetes API using Simple HTTP Client](https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/)
-[Kubernetes API Basics - Resources, Kinds, and Objects](https://iximiuz.com/en/posts/kubernetes-api-structure-and-terminology/)
+[How To Call Kubernetes API using Simple HTTP Client](https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/)  
+[Kubernetes API Basics - Resources, Kinds, and Objects](https://iximiuz.com/en/posts/kubernetes-api-structure-and-terminology/)  
 [How To Call Kubernetes API from Go - Types and Common Machinery](https://iximiuz.com/en/posts/kubernetes-api-go-types-and-common-machinery/)
