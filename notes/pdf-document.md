@@ -283,38 +283,44 @@ categorized and concise version of your design considerations:
 
 1. **Scalability & Performance**
 
-- Too many CRs increase API server load and processing latency.
-- etcd is not optimized for high-volume, high-churn workloads.
-- Frequent watch/update events trigger excessive reconciliation loops.
-- Querying all CRs frequently leads to high CPU/memory usage.
+```
+	- Too many CRs increase API server load and processing latency.
+	- etcd is not optimized for high-volume, high-churn workloads.
+	- Frequent watch/update events trigger excessive reconciliation loops.
+	- Querying all CRs frequently leads to high CPU/memory usage.
+```
 
 2. **CR Suitability & Storage Considerations**
 
-- CRs are not ideal for:
+```
+	- CRs are *not* ideal for:
+		High-churn, short-lived data (e.g., logs, events).
+		Millions of small, frequently changing objects.
+		Complex queries or analytics (better handled by databases).
+	- Kubernetes uses etcd (a key-value store), not a relational or search-optimized database.
+	- Searching by arbitrary fields (e.g., status=failed) requires scanning all CRs.
+```
 
-  High-churn, short-lived data (e.g., logs, events).
-  Millions of small, frequently changing objects.
-  Complex queries or analytics (better handled by databases).
+3. **Optimizations & Best Practices**
 
-- Kubernetes uses etcd (a key-value store), not a relational or search-optimized database.
-- Searching by arbitrary fields (e.g., status=failed) requires scanning all CRs.
-
-3. Optimizations & Best Practices
-   Efficient Watching: Use label/field selectors to narrow watch scope.
-   Querying CRs: Use labels & field selectors for filtering (kubectl get mycr -l owner=team-a).
-   Handling Dependencies:
-   Track dependencies via CR fields (spec.dependsOn).
-   Use finalizers to ensure processing before deletion.
-   Implement retry logic (RequeueAfter: 10s) for missing dependencies.
-   Define execution order with dependsOn fields.
-   Dealing with High-Churn CRs:
-   Use TTL controller (ttlSecondsAfterFinished) for auto-cleanup.
-   Batch multiple small CRs into one for efficiency.
-   Avoid using CRs for ephemeral state—consider Jobs or external storage.
+```
+   - Efficient Watching: Use label/field selectors to narrow watch scope.
+   - Querying CRs: Use labels & field selectors for filtering (kubectl get mycr -l owner=team-a).
+   - Handling Dependencies:
+		Track dependencies via CR fields (spec.dependsOn).
+		Use finalizers to ensure processing before deletion.
+		Implement retry logic (RequeueAfter: 10s) for missing dependencies.
+		Define execution order with dependsOn fields.
+   - Dealing with High-Churn CRs:
+		Use TTL controller (ttlSecondsAfterFinished) for auto-cleanup.
+		Batch multiple small CRs into one for efficiency.
+		Avoid using CRs for ephemeral state—consider Jobs or external storage.
+```
 
 <details><summary>..</summary>
 
 ```
+
 -- scalability concerns arise when the number grows too large
 -- Kubernetes stores all CRs in etcd, which is not optimized for high-volume, high-churn workloads.
 -- The more CRs, the more pressure on the API server, making it slower for all users.
@@ -350,6 +356,7 @@ When designing a CRD-based solution, think about:
 ```
 
 ```
+
 #prompt
 we can use kubectl to get events, how does this works in custom controller? In my controller code, how to leverage this mechanism to report error.
 
@@ -381,29 +388,36 @@ You can retrieve events with kubectl get events and filter them based on object 
 **boilerplate code for Reconcile()**
 
 ```
+
 in k8s with kubebuilder, give me a boilerplate code for Reconcile() that
 I can reuse in my custom controller. This boilerplate code should handle all common scenarios.
 Summarize all the practices. Add code comment.
+
 ```
 
 **concept explain**
 
 ```
+
 in k8s kubebuilder, explain the concept of "finalizer"
 
 in k8s kubebuilder, explain how to handle conflict when doing CR management
 
 in k8s kubebuilder, explain how to do Status update in Reconcile()
+
 ```
 
 **learn from existing k8s code**
 
 ```
+
 in k8s custom controller development, show me how Reconcile() works in Deployment controller.
 Give me simplified code with comment. Show me the exact source code location.
 
 in k8s custom controller development, show me how Reconcile() works in Deployment controller.
 give me detailed breakdown of the actual Kubernetes source
+
 ```
 
 </details>
+```
