@@ -1,6 +1,6 @@
 ## Manipulate CRD and CR wihtout coding - Part 1
 
-### CRD (== database table schema), CR (== a row in database table)
+### 1️⃣ CRD (== database table schema), CR (== a row in database table)
 
 <details><summary>more..</summary>
 
@@ -10,7 +10,7 @@ On the other hand, a **Custom Resource (CR)** is similar to **a row in a databas
 
 </details>
 
-### When and Who
+### 2️⃣ When and Who
 
 When a product is installed, it defines a CRD to introduce new resource types that Kubernetes understands.
 
@@ -21,7 +21,7 @@ Once the CRD is in place, various actors can manipulate the CRs.
 - UI
 - Any actor with the proper permissions.
 
-### Why CRD
+### 3️⃣ Why CRD
 
 <details><summary>extend k8s... more..</summary>
 
@@ -29,7 +29,7 @@ We use Custom Resource Definitions (CRDs) in Kubernetes to **extend** its functi
 
 </details>
 
-### Create CRD (~ create database schema)
+### 4️⃣ Create CRD (~ create database schema)
 
 <details><summary>CRD example</summary>
 
@@ -100,32 +100,6 @@ spec:
 
 - If you define a **schema** in your CRD (`spec.versions.schema.openAPIV3Schema`), Kubernetes will validate requests.
 - You can also define **default values** and **conversion webhooks**.
-
-</details>
-
-### Custom controller
-
-<details><summary>implementing a Controller...</summary>
-
-If you want Kubernetes to take action when a CR is created, you must:
-
-1. **Write a Controller** (using Kubebuilder, Operator SDK, or client-go).
-2. **Watch for CR Events** (Create, Update, Delete).
-3. **Reconcile Desired State** (Apply logic to manage resources based on the CR).
-4. **Deploy the Controller as a Pod** inside the cluster.
-
-The custom controller is responsible for **reconciling** the CR and ensuring the desired state is achieved
-
-Follow Kubernetes' rules and best practices by understanding how it works. This includes key concepts like:
-
-- Reconciliation loops: Continuously checking and fixing resources to match the desired state.
-- Retries: Automatically trying again when an operation fails.
-- Conflict management: Handling situations where multiple changes happen at the same time.
-
-**Note:**
-
-- A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
-- A custom controller can process existing types of resources, not just custom ones (CRDs).
 
 </details>
 
@@ -341,3 +315,29 @@ hellomessage-9 31s
 laborant@dev-machine:~/test$
 
 ```
+
+### Custom controller
+
+<details><summary>implementing a Controller...</summary>
+
+If you want Kubernetes to take action when a CR is created, you must:
+
+1. **Write a Controller** (using Kubebuilder, Operator SDK, or client-go).
+2. **Watch for CR Events** (Create, Update, Delete).
+3. **Reconcile Desired State** (Apply logic to manage resources based on the CR).
+4. **Deploy the Controller as a Pod** inside the cluster.
+
+The custom controller is responsible for **reconciling** the CR and ensuring the desired state is achieved
+
+Follow Kubernetes' rules and best practices by understanding how it works. This includes key concepts like:
+
+- Reconciliation loops: Continuously checking and fixing resources to match the desired state.
+- Retries: Automatically trying again when an operation fails.
+- Conflict management: Handling situations where multiple changes happen at the same time.
+
+**Note:**
+
+- A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
+- A custom controller can process existing types of resources, not just custom ones (CRDs).
+
+</details>
