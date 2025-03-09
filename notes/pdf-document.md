@@ -151,19 +151,9 @@ func (r *PdfDocumentReconciler) createJob(pdfDoc toolsv1.PdfDocument) (batchv1.J
 
 ### 3️⃣ Run
 
-Your Kubebuilder controller is using `ctrl.GetConfigOrDie()` to obtain the Kubernetes configuration. This function, provided by controller-runtime, automatically detects and loads the Kubernetes configuration based on the following default precedence: (1)In-cluster configuration (2) Out-of-cluster configuration (Default ~/.kube/config)
+Your Kubebuilder controller is using `ctrl.GetConfigOrDie()` to obtain the Kubernetes configuration. This function, provided by controller-runtime, automatically detects and loads the Kubernetes configuration based on the following default precedence: (1)In-cluster configuration (2) Out-of-cluster configuration (Default `~/.kube/config`)
 
 <details><summary>...</summary>
-
-```
-laborant@dev-machine:~/projects/pdfdocument$ make run
-/home/laborant/projects/pdfdocument/bin/controller-gen rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-/home/laborant/projects/pdfdocument/bin/controller-gen object:headerFile="hack/boilerplate.go.txt" paths="./..."
-go fmt ./...
-go vet ./...
-go run ./cmd/main.go
-
-```
 
 Create CRD (just like product installation)
 
@@ -186,6 +176,18 @@ laborant@dev-machine:~/projects/pdfdocument$ kubectl get crd pdfdocuments.tools.
 # view CR
 laborant@dev-machine:~/projects/pdfdocument$ kubectl get pdfdocuments.tools.example.com
 No resources found in default namespace.
+```
+
+Run it...
+
+```
+laborant@dev-machine:~/projects/pdfdocument$ make run
+/home/laborant/projects/pdfdocument/bin/controller-gen rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+/home/laborant/projects/pdfdocument/bin/controller-gen object:headerFile="hack/boilerplate.go.txt" paths="./..."
+go fmt ./...
+go vet ./...
+go run ./cmd/main.go
+
 ```
 
 Create CR (just like user submit request)
@@ -245,6 +247,20 @@ Done!
 Being able to trace the code is very helpful, as it allows you to examine the data structure at runtime. Delve is your best friend!
 
 <details><summary>...</summary>
+
+cleanup previous remains..
+
+```
+# cleanup pod
+kubectl delete job sample-document-job
+
+# delete CRD
+laborant@dev-machine:~/projects/pdfdocument$ kubectl delete -f ./config/crd/bases/tools.example.com_pdfdocuments.yaml
+
+# create CRD
+laborant@dev-machine:~/projects/pdfdocument$ kubectl apply -f ./config/crd/bases/tools.example.com_pdfdocuments.yaml
+
+```
 
 ```
 // start via delve debugger
