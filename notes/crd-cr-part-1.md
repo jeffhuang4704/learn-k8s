@@ -159,6 +159,37 @@ etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessag
 
 </details>
 
+### use kubectl to do CRUD
+
+```
+TODO: 加上一些例子... 以及類比..
+1. 如果CR的格式不對, 比如說 message 的地方有typo... message2... 會有error... 這是api-server 幫你做validation.
+
+            spec:
+              type: object
+              properties:
+                message:
+                  type: string
+
+2. 說明... 我們只有做了apply CRD... 就可以有 CRUD 以及 validation的功能...
+   這個若和NeuVector controller 的部份相比,
+
+3. 資料是寫到 etcd... 所以我們不需要consul.
+
+Analogy:
+  NeuVector Controller =>  K8s api-server
+  Consul  =>  etcd
+```
+
+TODO: examples..
+
+```
+kubectl apply  (add/update)
+kubectl delete
+kubectl update ... using jsonpath...
+kustomize example
+```
+
 ### use curl to do CRUD
 
 Extract API Server Endpoint and certs
@@ -170,12 +201,6 @@ export KUBE_API=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.s
 kubectl config view --raw -o jsonpath='{.users[0].user.client-certificate-data}' | base64 -d > ~/client.crt
 kubectl config view --raw -o jsonpath='{.users[0].user.client-key-data}' | base64 -d > ~/client.key
 kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d > ~/ca.crt
-
-```
-
-```
-
-TODO:
 
 ```
 
