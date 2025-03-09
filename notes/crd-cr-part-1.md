@@ -14,6 +14,7 @@ On the other hand, a **Custom Resource (CR)** is similar to **a row in a databas
 
 <details><summary>...</summary>
 
+**Why**
 We use CRDs in Kubernetes to **extend** its functionality beyond the built-in resources like Pods, Services, or Deployments. CRDs allow us to define our own custom resources with specific fields and behavior, tailored to the needs of our application or infrastructure.
 
 **When**
@@ -30,7 +31,7 @@ Once the CRD is in place, various actors can manipulate the CRs.
 
 </details>
 
-### 4️⃣ Create CRD (~ create database schema)
+### 3️⃣ Create CRD (~ create database schema)
 
 <details><summary>CRD example</summary>
 
@@ -77,7 +78,7 @@ spec:
 
 </details>
 
-<details><summary>Once applied, several things happen:</summary>
+<details><summary>🍉 Once applied, several things happen..</summary>
 
 1. Kubernetes API Server recognizes the new resource (TODO: use a kubectl get xxx -v 6)
 2. New API endpoint is created
@@ -104,7 +105,7 @@ spec:
 
 </details>
 
-### 5️⃣ How to generate a sample CRD
+### 4️⃣ How to generate a sample CRD
 
 <details><summary>CR example</summary>
 
@@ -126,7 +127,7 @@ spec:
 
 </details>
 
-### 6️⃣ Observe the content in etcd
+### 5️⃣ Observe the content in etcd
 
 <details><summary>steps</summary>
 
@@ -170,7 +171,7 @@ etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessag
 
 </details>
 
-### 7️⃣ Use kubectl to do CRUD
+### 6️⃣ Use kubectl to do CRUD
 
 ```
 TODO: 加上一些例子... 以及類比..
@@ -201,24 +202,24 @@ kubectl update ... using jsonpath...
 kustomize example
 ```
 
-### 8️⃣ Use curl to do CRUD
+### 7️⃣ Use curl to do CRUD
 
 Extract API Server Endpoint and certs
 
 ```
-
 export KUBE_API=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.server}')
 
 kubectl config view --raw -o jsonpath='{.users[0].user.client-certificate-data}' | base64 -d > ~/client.crt
 kubectl config view --raw -o jsonpath='{.users[0].user.client-key-data}' | base64 -d > ~/client.key
 kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d > ~/ca.crt
-
 ```
 
-### 9️⃣ use curl to watch CR
+**TODO: 🚧 add CRUD examples**
+add, get..
+
+**watch**
 
 ```
-
 # prompt
 
 I want to use curl to watch the CR creation, API server is stored in $KUBE_API.
@@ -228,12 +229,9 @@ what's the curl command to use?
 
 I would like to use curl to do CRUD for this CRD. API server is stored in $KUBE_API.
 Generate related curl commands.
-
 ```
 
-### 🚧 use curl to add CR (TODO)
-
-### 🔟 create more CRs
+### 8️⃣ Create more CRs
 
 <details><summary>...</summary>
 
@@ -314,7 +312,7 @@ laborant@dev-machine:~/test$
 
 </details>
 
-### Custom controller
+### 9️⃣ Custom controller
 
 <details><summary>implementing a Controller...</summary>
 
