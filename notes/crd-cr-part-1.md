@@ -29,39 +29,15 @@ We use Custom Resource Definitions (CRDs) in Kubernetes to **extend** its functi
 
 </details>
 
-### Custom controller
+### Create CRD (~ create database schema)
 
-<details><summary>some notes..</summary>
-
-1. The custom controller is responsible for reconciling the CR and ensuring the desired state is achieved
-
-- Process the CR (User's intent) from `spec` and **reconcile** the desired and actual states — this is where your business logic comes into play.
-- Update the `status` field
-- Comply with Kubernetes' rules and best practices, understanding its behavior and mechanisms (e.g., reconciliation loops, retries, conflict management).
-
-2. A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
-3. A custom controller can process existing types of resources, not just custom ones (CRDs).
-
-</details>
-
-### How to generate a sample CRD
-
-<details><summary>create an example CRD..</summary>
+<details><summary>CRD example</summary>
 
 ```
 # use chatgpt to create a CRD
 # prompt
 in k8s, help me to generate a CRD yaml. I just need a message with string type.  Ask me more info along the way.
-
-# prompt
-
-give me a corresponding CR yaml.
-
 ```
-
-</details>
-
-<details><summary>CRD example</summary>
 
 ```
 apiVersion: apiextensions.k8s.io/v1
@@ -95,6 +71,71 @@ spec:
               properties:
                 message:
                   type: string
+
+```
+
+</details>
+
+Once applied, several things happen:
+
+1. Kubernetes API Server recognizes the new resource (TODO: use a kubectl get xxx -v 6)
+2. New API endpoint is created
+3. kubectl Can Now Manage the Resource (CRUD)
+4. `etcd` stores data for the CR (Custom Resource).
+
+- The Kubernetes API server stores instances of your custom resource in **etcd**.
+- Even if no controller exists, the objects persist in etcd.
+
+5. No Automatic Controller (Until You Implement One)
+
+- Kubernetes does **not** automatically provide controllers for your CRD.
+- You need to write a **custom controller** (e.g., using Kubebuilder) to manage the lifecycle of the resource.
+
+6. RBAC Considerations
+
+- By default, only cluster administrators can manage the CRD.
+- You need to define **RBAC roles** if you want other users, services, or controllers to interact with the resource.
+
+7. Validation and Defaulting (Optional)
+
+- If you define a **schema** in your CRD (`spec.versions.schema.openAPIV3Schema`), Kubernetes will validate requests.
+- You can also define **default values** and **conversion webhooks**.
+
+**Next Steps: Implementing a Controller**
+If you want Kubernetes to take action when a CR is created, you must:
+
+1. **Write a Controller** (using Kubebuilder, Operator SDK, or client-go).
+2. **Watch for CR Events** (Create, Update, Delete).
+3. **Reconcile Desired State** (Apply logic to manage resources based on the CR).
+4. **Deploy the Controller as a Pod** inside the cluster.
+
+### Custom controller
+
+<details><summary>some notes..</summary>
+
+1. The custom controller is responsible for reconciling the CR and ensuring the desired state is achieved
+
+- Process the CR (User's intent) from `spec` and **reconcile** the desired and actual states — this is where your business logic comes into play.
+- Update the `status` field
+- Comply with Kubernetes' rules and best practices, understanding its behavior and mechanisms (e.g., reconciliation loops, retries, conflict management).
+
+2. A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
+3. A custom controller can process existing types of resources, not just custom ones (CRDs).
+
+</details>
+
+### How to generate a sample CRD
+
+<details><summary>create an example CRD..</summary>
+
+```
+# use chatgpt to create a CRD
+# prompt
+in k8s, help me to generate a CRD yaml. I just need a message with string type.  Ask me more info along the way.
+
+# prompt
+
+give me a corresponding CR yaml.
 
 ```
 
