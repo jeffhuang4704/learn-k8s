@@ -122,8 +122,10 @@ Follow Kubernetes' rules and best practices by understanding how it works. This 
 - Retries: Automatically trying again when an operation fails.
 - Conflict management: Handling situations where multiple changes happen at the same time.
 
-2. A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
-3. A custom controller can process existing types of resources, not just custom ones (CRDs).
+**Note:**
+
+- A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
+- A custom controller can process existing types of resources, not just custom ones (CRDs).
 
 </details>
 
