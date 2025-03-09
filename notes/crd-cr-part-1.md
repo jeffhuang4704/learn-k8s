@@ -103,9 +103,10 @@ spec:
 
 </details>
 
-<details><summary>next steps...</summary>
+### Custom controller
 
-**Next Steps: Implementing a Controller**
+<details><summary>implementing a Controller...</summary>
+
 If you want Kubernetes to take action when a CR is created, you must:
 
 1. **Write a Controller** (using Kubebuilder, Operator SDK, or client-go).
@@ -113,17 +114,13 @@ If you want Kubernetes to take action when a CR is created, you must:
 3. **Reconcile Desired State** (Apply logic to manage resources based on the CR).
 4. **Deploy the Controller as a Pod** inside the cluster.
 
-</details>
+The custom controller is responsible for **reconciling** the CR and ensuring the desired state is achieved
 
-### Custom controller
+Follow Kubernetes' rules and best practices by understanding how it works. This includes key concepts like:
 
-<details><summary>some notes..</summary>
-
-1. The custom controller is responsible for reconciling the CR and ensuring the desired state is achieved
-
-- Process the CR (User's intent) from `spec` and **reconcile** the desired and actual states — this is where your business logic comes into play.
-- Update the `status` field
-- Comply with Kubernetes' rules and best practices, understanding its behavior and mechanisms (e.g., reconciliation loops, retries, conflict management).
+- Reconciliation loops: Continuously checking and fixing resources to match the desired state.
+- Retries: Automatically trying again when an operation fails.
+- Conflict management: Handling situations where multiple changes happen at the same time.
 
 2. A custom controller can be designed to process many kinds of Custom Resource Definitions (CRDs).
 3. A custom controller can process existing types of resources, not just custom ones (CRDs).
@@ -132,22 +129,12 @@ If you want Kubernetes to take action when a CR is created, you must:
 
 ### How to generate a sample CRD
 
-<details><summary>create an example CRD..</summary>
-
-```
-# use chatgpt to create a CRD
-# prompt
-in k8s, help me to generate a CRD yaml. I just need a message with string type.  Ask me more info along the way.
-
-# prompt
-
-give me a corresponding CR yaml.
-
-```
-
-</details>
-
 <details><summary>CR example</summary>
+
+```
+# prompt
+give me a corresponding CR yaml.
+```
 
 ```
 apiVersion: susesecurity.com/v1alpha1
@@ -162,7 +149,7 @@ spec:
 
 </details>
 
-### observe the content in etcd
+### Observe the content in etcd
 
 <details><summary>steps</summary>
 
