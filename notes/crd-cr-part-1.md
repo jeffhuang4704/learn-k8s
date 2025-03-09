@@ -10,22 +10,23 @@ On the other hand, a **Custom Resource (CR)** is similar to **a row in a databas
 
 </details>
 
-### 2️⃣ When and Who
+### 2️⃣ Why, When and Who
 
+<details><summary>...</summary>
+
+We use CRDs in Kubernetes to **extend** its functionality beyond the built-in resources like Pods, Services, or Deployments. CRDs allow us to define our own custom resources with specific fields and behavior, tailored to the needs of our application or infrastructure.
+
+**When**
 When a product is installed, it defines a CRD to introduce new resource types that Kubernetes understands.
 
 Once the CRD is in place, various actors can manipulate the CRs.
+
+**Who**
 
 - a user might manually create or update a CR through kubectl
 - a CI/CD pipeline could automatically update CRs
 - UI
 - Any actor with the proper permissions.
-
-### 3️⃣ Why CRD
-
-<details><summary>extend k8s... more..</summary>
-
-We use Custom Resource Definitions (CRDs) in Kubernetes to **extend** its functionality beyond the built-in resources like Pods, Services, or Deployments. CRDs allow us to define our own custom resources with specific fields and behavior, tailored to the needs of our application or infrastructure.
 
 </details>
 
@@ -234,8 +235,9 @@ Generate related curl commands.
 
 ### 🔟 create more CRs
 
-```
+<details><summary>...</summary>
 
+```
 #!/bin/bash
 
 for i in {1..20}
@@ -250,11 +252,9 @@ spec:
 message: "Hello, Kubernetes! This is message $i."
 EOF
 done
-
 ```
 
 ```
-
 laborant@dev-machine:~/test$ ls -l
 total 84
 -rwxrwxr-x 1 laborant laborant 246 Mar 7 06:36 creaet_cr.sh
@@ -278,17 +278,13 @@ total 84
 -rw-rw-r-- 1 laborant laborant 168 Mar 7 06:36 hellomessage-7.yaml
 -rw-rw-r-- 1 laborant laborant 168 Mar 7 06:36 hellomessage-8.yaml
 -rw-rw-r-- 1 laborant laborant 168 Mar 7 06:36 hellomessage-9.yaml
-
 ```
 
 ```
-
 # apply
-
 kubectl apply -f .
 
 # get
-
 laborant@dev-machine:~/test$ kubectl get hellomessages.susesecurity.com
 NAME AGE
 example-hellomessage 5h11m
@@ -315,6 +311,8 @@ hellomessage-9 31s
 laborant@dev-machine:~/test$
 
 ```
+
+</details>
 
 ### Custom controller
 
