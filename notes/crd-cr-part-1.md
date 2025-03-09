@@ -103,7 +103,7 @@ spec:
 
 </details>
 
-### How to generate a sample CRD
+### 5️⃣ How to generate a sample CRD
 
 <details><summary>CR example</summary>
 
@@ -125,7 +125,7 @@ spec:
 
 </details>
 
-### Observe the content in etcd
+### 6️⃣ Observe the content in etcd
 
 <details><summary>steps</summary>
 
@@ -169,7 +169,7 @@ etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessag
 
 </details>
 
-### use kubectl to do CRUD
+### 7️⃣ Use kubectl to do CRUD
 
 ```
 TODO: 加上一些例子... 以及類比..
@@ -200,7 +200,7 @@ kubectl update ... using jsonpath...
 kustomize example
 ```
 
-### use curl to do CRUD
+### 8️⃣ Use curl to do CRUD
 
 Extract API Server Endpoint and certs
 
@@ -214,7 +214,7 @@ kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authori
 
 ```
 
-### use curl to watch CR
+### 9️⃣ use curl to watch CR
 
 ```
 
@@ -232,7 +232,7 @@ Generate related curl commands.
 
 ### 🚧 use curl to add CR (TODO)
 
-### create more CRs
+### 🔟 create more CRs
 
 ```
 
