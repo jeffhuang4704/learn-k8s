@@ -2,7 +2,7 @@
 
 ### 1️⃣ CRD (== database table schema), CR (== a row in database table)
 
-<details><summary>more..</summary>
+<details><summary>...</summary>
 
 In Kubernetes, a Custom **Resource Definition (CRD)** is like a **database schema**. It defines the structure of a custom resource, specifying the kind of data it holds and how it should be validated.
 
@@ -33,7 +33,7 @@ Once the CRD is in place, various actors can manipulate the CRs.
 
 ### 3️⃣ Create CRD (~ create database schema)
 
-<details><summary>CRD example</summary>
+<details><summary>CRD sample</summary>
 
 ```
 # use chatgpt to create a CRD
@@ -107,7 +107,7 @@ spec:
 
 ### 4️⃣ How to generate a sample CRD
 
-<details><summary>CR example</summary>
+<details><summary>CR sample</summary>
 
 ```
 # prompt
@@ -132,17 +132,13 @@ spec:
 <details><summary>steps</summary>
 
 ```
-
 # find etcd pod
-
 kubectl get pod -n kube-system
 
 # exec into it
-
 kubectl exec -it etcd-cplane-01 -n kube-system -- sh
 
 # set environment variables
-
 export ETCDCTL_API=3
 export ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt
 export ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt
@@ -150,23 +146,19 @@ export ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key
 export ETCDCTL_ENDPOINTS=https://127.0.0.1:2379
 
 # List all keys stored in etcd
-
 etcdctl get "" --prefix --keys-only
 
 👉 /registry/susesecurity.com/hellomessages/default/example-hellomessage
 
 # Get content given a key
-
 etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessage
 
 # notes
-
     /registry/pods/         - Stores pod information
     /registry/deployments/  - Stores deployments
     /registry/services/     - Stores services
     /registry/nodes/        - Stores node information
     /registry/secrets/      - Stores secrets (encrypted if encryption is enabled)
-
 ```
 
 </details>
@@ -204,6 +196,8 @@ kustomize example
 
 ### 7️⃣ Use curl to do CRUD
 
+<details><summary>...</summary>
+
 Extract API Server Endpoint and certs
 
 ```
@@ -230,6 +224,8 @@ what's the curl command to use?
 I would like to use curl to do CRUD for this CRD. API server is stored in $KUBE_API.
 Generate related curl commands.
 ```
+
+</details>
 
 ### 8️⃣ Create more CRs
 
