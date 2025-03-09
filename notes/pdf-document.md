@@ -280,6 +280,14 @@ example.com/pdfdocument/internal/controller.(*PdfDocumentReconciler).Reconcile
 
 // continue
 (dlv) c
+
+// 👉 kubectl apply -f cr.yaml
+
+// (breakpoint hit)
+(dlv) p pdfDoc.Spec
+example.com/pdfdocument/api/v1.PdfDocumentSpec {
+        DocumentName: "my-document",
+        Text: "### My document\nHello **world** !\n",}
 ```
 
 Change buld option if necessary, add `-gcflags=all="-N -l"`
