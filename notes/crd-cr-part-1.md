@@ -76,11 +76,11 @@ spec:
 
 </details>
 
-Once applied, several things happen:
+<details><summary>Once applied, several things happen:</summary>
 
 1. Kubernetes API Server recognizes the new resource (TODO: use a kubectl get xxx -v 6)
 2. New API endpoint is created
-3. kubectl Can Now Manage the Resource (CRUD)
+3. kubectl can now manage the resource (CRUD)
 4. `etcd` stores data for the CR (Custom Resource).
 
 - The Kubernetes API server stores instances of your custom resource in **etcd**.
@@ -101,6 +101,10 @@ Once applied, several things happen:
 - If you define a **schema** in your CRD (`spec.versions.schema.openAPIV3Schema`), Kubernetes will validate requests.
 - You can also define **default values** and **conversion webhooks**.
 
+</details>
+
+<details><summary>next steps...</summary>
+
 **Next Steps: Implementing a Controller**
 If you want Kubernetes to take action when a CR is created, you must:
 
@@ -108,6 +112,8 @@ If you want Kubernetes to take action when a CR is created, you must:
 2. **Watch for CR Events** (Create, Update, Delete).
 3. **Reconcile Desired State** (Apply logic to manage resources based on the CR).
 4. **Deploy the Controller as a Pod** inside the cluster.
+
+</details>
 
 ### Custom controller
 
