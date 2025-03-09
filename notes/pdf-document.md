@@ -248,7 +248,7 @@ Being able to trace the code is very helpful, as it allows you to examine the da
 
 <details><summary>...</summary>
 
-cleanup previous remains..
+**cleanup previous remains..**
 
 ```
 # cleanup pod
@@ -261,6 +261,8 @@ laborant@dev-machine:~/projects/pdfdocument$ kubectl delete -f ./config/crd/base
 laborant@dev-machine:~/projects/pdfdocument$ kubectl apply -f ./config/crd/bases/tools.example.com_pdfdocuments.yaml
 
 ```
+
+**start controller via delve debugger**
 
 ```
 // start via delve debugger
