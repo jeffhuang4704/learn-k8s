@@ -166,32 +166,21 @@ etcdctl get /registry/susesecurity.com/hellomessages/default/example-hellomessag
 ### 6️⃣ Use kubectl to do CRUD
 
 ```
-TODO: 加上一些例子... 以及類比..
-1. 如果CR的格式不對, 比如說 message 的地方有typo... message2... 會有error... 這是api-server 幫你做validation.
-
+1. If the CR format is incorrect—for example, due to a typo—the API server will reject it.
             spec:
               type: object
               properties:
                 message:
                   type: string
 
-2. 說明... 我們只有做了apply CRD... 就可以有 CRUD 以及 validation的功能...
-   這個若和NeuVector controller 的部份相比,
-
-3. 資料是寫到 etcd... 所以我們不需要consul.
-
-Analogy:
+2.
   NeuVector Controller =>  K8s api-server
   Consul  =>  etcd
 ```
 
-TODO: examples..
-
 ```
 kubectl apply  (add/update)
 kubectl delete
-kubectl update ... using jsonpath...
-kustomize example
 ```
 
 ### 7️⃣ Use curl to do CRUD
@@ -208,10 +197,7 @@ kubectl config view --raw -o jsonpath='{.users[0].user.client-key-data}' | base6
 kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d > ~/ca.crt
 ```
 
-**TODO: 🚧 add CRUD examples**
-add, get..
-
-**watch**
+TODO: add curl examples..
 
 ```
 # prompt
