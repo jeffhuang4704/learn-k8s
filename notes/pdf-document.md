@@ -305,8 +305,6 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 ### 5️⃣ Some design considerations (not exhaustive)
 
-categorized and concise version of your design considerations:
-
 1. **Scalability & Performance**
 
 ```
