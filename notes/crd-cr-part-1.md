@@ -227,9 +227,9 @@ apiVersion: susesecurity.com/v1alpha1
 kind: HelloMessage
 metadata:
   name: hellomessage-$i
-namespace: default
+  namespace: default
 spec:
-message: "Hello, Kubernetes! This is message $i."
+  message: "Hello, Kubernetes! This is message $i."
 EOF
 done
 ```

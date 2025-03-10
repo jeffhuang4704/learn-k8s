@@ -244,7 +244,7 @@ Done!
 
 ### 4️⃣ Debug
 
-Being able to trace the code is very helpful, as it allows you to examine the data structure at runtime. Delve is your best friend!
+Being able to trace the code is very helpful, as it allows you to examine the data structure at runtime. [Delve](https://github.com/go-delve/delve) is your best friend!
 
 <details><summary>...</summary>
 
