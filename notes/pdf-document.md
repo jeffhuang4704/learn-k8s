@@ -346,7 +346,6 @@ categorized and concise version of your design considerations:
 <details><summary>..</summary>
 
 ```
-
 -- scalability concerns arise when the number grows too large
 -- Kubernetes stores all CRs in etcd, which is not optimized for high-volume, high-churn workloads.
 -- The more CRs, the more pressure on the API server, making it slower for all users.
@@ -354,9 +353,9 @@ categorized and concise version of your design considerations:
 -- Processing thousands or millions of CRs can lead to high processing latency.
 -- Efficient Watch Mechanisms. Instead of watching all CRs globally, narrow the watch scope based on labels/selectors.
 -- Cases probably not suitable for CR
-If you need to store high-churn, short-lived data (e.g., logs, events, temporary states).
-If your use case involves millions of small objects that frequently change.
-If queries require complex searches or analytics (better handled by databases).
+	If you need to store high-churn, short-lived data (e.g., logs, events, temporary states).
+	If your use case involves millions of small objects that frequently change.
+	If queries require complex searches or analytics (better handled by databases).
 
 -- Querying all CRs frequently can cause high CPU and memory usage, affecting cluster performance.
 -- Kubernetes uses etcd, which is a key-value store, not a relational or search-optimized database.
@@ -368,16 +367,16 @@ If queries require complex searches or analytics (better handled by databases).
 -- Implement retry logic (return ctrl.Result{RequeueAfter: 10 \* time.Second}, nil) to handle missing dependencies.
 -- Define execution order using dependsOn fields in CRs
 -- Dealing with High-Churn CRs (Frequent Creation/Deletion)
-Use TTL Controller (ttlSecondsAfterFinished) for auto-cleanup.
-Aggregate multiple small CRs into one batch CR (process them together).
-Avoid using CRs for ephemeral state (consider using Jobs or external storage).
+	Use TTL Controller (ttlSecondsAfterFinished) for auto-cleanup.
+	Aggregate multiple small CRs into one batch CR (process them together).
+	Avoid using CRs for ephemeral state (consider using Jobs or external storage).
 
 When designing a CRD-based solution, think about:
-✅ Performance → Minimize etcd impact & optimize controller logic.
-✅ Scalability → Use informers, batch processing, and indexing.
-✅ Searchability → Consider external databases if complex queries are needed.
-✅ Reliability → Handle dependencies, failures, and retries properly.
-✅ Security → Use RBAC, webhooks, and limit permissions.
+	✅ Performance → Minimize etcd impact & optimize controller logic.
+	✅ Scalability → Use informers, batch processing, and indexing.
+	✅ Searchability → Consider external databases if complex queries are needed.
+	✅ Reliability → Handle dependencies, failures, and retries properly.
+	✅ Security → Use RBAC, webhooks, and limit permissions.
 
 ```
 
