@@ -500,7 +500,7 @@ General
 	help Display this help.
 
 Development
-	manifests Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.
+	manifests Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.	🍉
 	generate Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
 	fmt Run go fmt against code.
 	vet Run go vet against code.
@@ -511,12 +511,12 @@ Development
 	lint-config Verify golangci-lint linter configuration
 
 Build
-	build Build manager binary.
-	run Run a controller from your host.
-	docker-build Build docker image with the manager.
+	build Build manager binary.		🍉
+	run Run a controller from your host.	🍉
+	docker-build Build docker image with the manager.	🍉
 	docker-push Push docker image with the manager.
 	docker-buildx Build and push docker image for the manager for cross-platform support
-	build-installer Generate a consolidated YAML with CRDs and deployment.
+	build-installer Generate a consolidated YAML with CRDs and deployment.		🍉
 
 Deployment
 	install Install CRDs into the K8s cluster specified in ~/.kube/config.
