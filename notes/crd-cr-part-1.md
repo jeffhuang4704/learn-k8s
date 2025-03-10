@@ -105,7 +105,7 @@ spec:
 
 </details>
 
-### 4️⃣ How to generate a sample CRD
+### 4️⃣ How to generate a sample CR
 
 <details><summary>CR sample</summary>
 
