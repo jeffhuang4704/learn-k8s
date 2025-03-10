@@ -305,6 +305,8 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 
 ### 5️⃣ Some design considerations (not exhaustive)
 
+<details><summary>..</summary>
+
 1. **Scalability & Performance**
 
 ```
@@ -341,7 +343,9 @@ Change buld option if necessary, add `-gcflags=all="-N -l"`
 		Avoid using CRs for ephemeral state—consider Jobs or external storage.
 ```
 
-<details><summary>..</summary>
+</details>
+
+<details><summary>random notes</summary>
 
 ```
 -- scalability concerns arise when the number grows too large
@@ -394,7 +398,7 @@ You can retrieve events with kubectl get events and filter them based on object 
 
 ### 6️⃣ Reference
 
-<details><summary>...</summary>
+<details><summary>diagram</summary>
 
 [Writing Kubernetes Controllers](https://www.youtube.com/watch?v=q7b23612pSc)
 
