@@ -487,3 +487,51 @@ func (r *MyCustomReconciler) SetupWithManager(mgr ctrl.Manager) error {
 ```
 
 </details>
+
+<details><summary>note 2 - kubebuilder generated project make help</summary>
+
+```
+laborant@dev-machine:~/projects/pdfdocument$ make help
+
+Usage:
+	make <target>
+
+General
+	help Display this help.
+
+Development
+	manifests Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.
+	generate Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
+	fmt Run go fmt against code.
+	vet Run go vet against code.
+	test Run tests.
+	test-e2e Run the e2e tests. Expected an isolated environment using Kind.
+	lint Run golangci-lint linter
+	lint-fix Run golangci-lint linter and perform fixes
+	lint-config Verify golangci-lint linter configuration
+
+Build
+	build Build manager binary.
+	run Run a controller from your host.
+	docker-build Build docker image with the manager.
+	docker-push Push docker image with the manager.
+	docker-buildx Build and push docker image for the manager for cross-platform support
+	build-installer Generate a consolidated YAML with CRDs and deployment.
+
+Deployment
+	install Install CRDs into the K8s cluster specified in ~/.kube/config.
+	uninstall Uninstall CRDs from the K8s cluster specified in ~/.kube/config. Call with ignore-not-found=true to ignore resource not found errors during deletion.
+	deploy Deploy controller to the K8s cluster specified in ~/.kube/config.
+	undeploy Undeploy controller from the K8s cluster specified in ~/.kube/config. Call with ignore-not-found=true to ignore resource not found errors during deletion.
+
+Dependencies
+	kustomize Download kustomize locally if necessary.
+	controller-gen Download controller-gen locally if necessary.
+	setup-envtest Download the binaries required for ENVTEST in the local bin directory.
+	envtest Download setup-envtest locally if necessary.
+	golangci-lint Download golangci-lint locally if necessary.
+
+```
+
+</details>
+```
