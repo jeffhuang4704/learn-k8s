@@ -404,9 +404,7 @@ You can retrieve events with kubectl get events and filter them based on object 
 
 </details>
 
-### 7️⃣ Some prompts
-
-<details><summary>...</summary>
+<details><summary>some prompts</summary>
 
 **boilerplate code for Reconcile()**
 
@@ -443,4 +441,45 @@ give me detailed breakdown of the actual Kubernetes source
 ```
 
 </details>
+
+### 7️⃣ Some random notes
+
+<details><summary>note 1 - how to specify what CR to handle..</summary>
+
 ```
+🟢 Using Predicate Functions
+Predicate functions allow you to filter events before they reach your reconciler. You can define a predicate to watch only specific changes (e.g., status changes, specific labels, or annotations).
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *PdfDocumentReconciler) SetupWithManager(mgr ctrl.Manager) error {
+        return ctrl.NewControllerManagedBy(mgr).
+                For(&toolsv1.PdfDocument{}).
+                Named("pdfdocument").
+                Complete(r)
+}
+
+Other options like using Field Indexing for Efficient Filtering
+Watching Related Resources with Filtering
+
+import "sigs.k8s.io/controller-runtime/pkg/handler"
+
+func (r *MyCustomReconciler) SetupWithManager(mgr ctrl.Manager) error {
+    return ctrl.NewControllerManagedBy(mgr).
+        For(&myv1alpha1.MyCustomResource{}).
+        Watches(
+            &source.Kind{Type: &corev1.ConfigMap{}},
+            &handler.EnqueueRequestsFromMapFunc{
+                ToRequests: handler.MapFunc(func(obj client.Object) []reconcile.Request {
+                    cm := obj.(*corev1.ConfigMap)
+                    return []reconcile.Request{
+                        {NamespacedName: types.NamespacedName{Name: cm.Labels["my-custom-resource"], Namespace: cm.Namespace}},
+                    }
+                }),
+            },
+        ).
+        Complete(r)
+}
+
+```
+
+</details>
