@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receiver-deployment
+  labels:
+    app: receiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: receiver
+  template:
+    metadata:
+      labels:
+        app: receiver
+    spec:
+      containers:
+        - name: receiver
+          image: chihjenhuang/receiver-image:v5
+          ports:
+            - containerPort: 8443
+          volumeMounts:
+            - name: receiver-volume
+              mountPath: /output
+      volumes:
+        - name: receiver-volume
+          hostPath:
+            path: /output
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: receiver-service
+spec:
+  selector:
+    app: receiver
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 8443
+  type: NodePort
