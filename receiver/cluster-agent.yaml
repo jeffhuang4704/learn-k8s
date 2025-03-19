@@ -1,0 +1,157 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    meta.helm.sh/release-name: suse-observability-agent
+    meta.helm.sh/release-namespace: suse-observability
+  creationTimestamp: "2025-03-15T23:39:20Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/component: cluster-agent
+    app.kubernetes.io/instance: suse-observability-agent
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: suse-observability-agent
+    app.kubernetes.io/version: 3.0.0
+    helm.sh/chart: suse-observability-agent-1.0.20
+  name: suse-observability-agent-cluster-agent
+  namespace: suse-observability
+  resourceVersion: "23336"
+  uid: fb1e71d8-c36e-4fad-b21d-40d3b42a2d6c
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: cluster-agent
+      app.kubernetes.io/instance: suse-observability-agent
+      app.kubernetes.io/name: suse-observability-agent
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/secret: c1840ffef0e85c252c72b3523fd0d14b41ec233814b793373cf231daeddeedae
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: cluster-agent
+        app.kubernetes.io/instance: suse-observability-agent
+        app.kubernetes.io/name: suse-observability-agent
+    spec:
+      containers:
+      - env:
+        - name: STS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: sts-api-key
+              name: suse-observability-agent
+        - name: STS_CLUSTER_AGENT_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: sts-cluster-auth-token
+              name: suse-observability-agent
+        - name: KUBERNETES_HOSTNAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: STS_HOSTNAME
+          value: $(KUBERNETES_HOSTNAME)-test0313
+        - name: LOG_LEVEL
+          value: INFO
+        - name: STS_CLUSTER_CHECKS_ENABLED
+          value: "true"
+        - name: STS_EXTRA_CONFIG_PROVIDERS
+          value: kube_endpoints kube_services
+        - name: STS_EXTRA_LISTENERS
+          value: kube_endpoints kube_services
+        - name: STS_CLUSTER_NAME
+          value: test0313
+        - name: STS_SKIP_VALIDATE_CLUSTERNAME
+          value: "true"
+        - name: STS_SKIP_SSL_VALIDATION
+          value: "false"
+        - name: STS_COLLECT_KUBERNETES_METRICS
+          value: "true"
+        - name: STS_COLLECT_KUBERNETES_TIMEOUT
+          value: "10"
+        - name: STS_COLLECT_KUBERNETES_TOPOLOGY
+          value: "true"
+        - name: STS_LEADER_ELECTION
+          value: "true"
+        - name: STS_LOG_LEVEL
+          value: INFO
+        - name: STS_CLUSTER_AGENT_CMD_PORT
+          value: "5005"
+        - name: STS_STS_URL
+          value: https://172.16.0.2:32115/receiver/stsAgent
+        image: registry.rancher.com/suse-observability/stackstate-k8s-cluster-agent:6943bf8c
+        imagePullPolicy: IfNotPresent
+        name: cluster-agent
+        resources:
+          limits:
+            cpu: 400m
+            memory: 800Mi
+          requests:
+            cpu: 70m
+            memory: 512Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/log/stackstate-agent
+          name: logs
+        - mountPath: /etc/stackstate-agent/conf.d/kubernetes_api_events.d/conf.yaml
+          name: config-override-volume
+          subPath: kubernetes_api_events_conf
+        - mountPath: /etc/stackstate-agent/conf.d/kubernetes_api_topology.d/conf.yaml
+          name: config-override-volume
+          readOnly: true
+          subPath: kubernetes_api_topology_conf
+        - mountPath: /etc/stackstate-agent/conf.d/kubernetes_state_core.d/conf.yaml
+          name: config-override-volume
+          readOnly: true
+          subPath: kube_state_metrics_core_conf
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: suse-observability-agent-pull-secret
+      nodeSelector:
+        kubernetes.io/os: linux
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: suse-observability-agent
+      serviceAccountName: suse-observability-agent
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: logs
+      - configMap:
+          defaultMode: 420
+          name: suse-observability-agent-cluster-agent
+        name: config-override-volume
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-03-15T23:39:23Z"
+    lastUpdateTime: "2025-03-15T23:39:23Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-03-15T23:39:20Z"
+    lastUpdateTime: "2025-03-15T23:39:23Z"
+    message: ReplicaSet "suse-observability-agent-cluster-agent-79c7b5978d" has successfully
+      progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

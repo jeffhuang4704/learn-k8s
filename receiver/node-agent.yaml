@@ -1,0 +1,355 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    deprecated.daemonset.template.generation: "1"
+    meta.helm.sh/release-name: suse-observability-agent
+    meta.helm.sh/release-namespace: suse-observability
+  creationTimestamp: "2025-03-15T23:39:20Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/component: node-agent
+    app.kubernetes.io/instance: suse-observability-agent
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: suse-observability-agent
+    app.kubernetes.io/version: 3.0.0
+    helm.sh/chart: suse-observability-agent-1.0.20
+  name: suse-observability-agent-node-agent
+  namespace: suse-observability
+  resourceVersion: "23386"
+  uid: 03bbf400-d4dc-46a4-9413-01f75e2233a0
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: node-agent
+      app.kubernetes.io/instance: suse-observability-agent
+      app.kubernetes.io/name: suse-observability-agent
+  template:
+    metadata:
+      annotations:
+        checksum/secret: aea5ddbe990dfbc5963b6dcb599a890615959a018f2f40ae558db23e1369ead0
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: node-agent
+        app.kubernetes.io/instance: suse-observability-agent
+        app.kubernetes.io/name: suse-observability-agent
+    spec:
+      containers:
+      - env:
+        - name: STS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: sts-api-key
+              name: suse-observability-agent
+        - name: STS_KUBERNETES_KUBELET_HOST
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: KUBERNETES_HOSTNAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: STS_HOSTNAME
+          value: $(KUBERNETES_HOSTNAME)-test0313
+        - name: AGENT_VERSION
+          value: 6943bf8c
+        - name: HOST_PROC
+          value: /host/proc
+        - name: HOST_SYS
+          value: /host/sys
+        - name: KUBERNETES
+          value: "true"
+        - name: STS_CLUSTER_AGENT_ENABLED
+          value: "true"
+        - name: STS_CLUSTER_AGENT_KUBERNETES_SERVICE_NAME
+          value: suse-observability-agent-cluster-agent
+        - name: STS_CLUSTER_AGENT_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: sts-cluster-auth-token
+              name: suse-observability-agent
+        - name: STS_CLUSTER_NAME
+          value: test0313
+        - name: STS_SKIP_VALIDATE_CLUSTERNAME
+          value: "true"
+        - name: STS_CHECKS_TAG_CARDINALITY
+          value: orchestrator
+        - name: STS_EXTRA_CONFIG_PROVIDERS
+          value: endpointschecks
+        - name: STS_HEALTH_PORT
+          value: "5555"
+        - name: STS_LEADER_ELECTION
+          value: "false"
+        - name: LOG_LEVEL
+          value: INFO
+        - name: STS_LOG_LEVEL
+          value: INFO
+        - name: STS_PROCESS_AGENT_ENABLED
+          value: "false"
+        - name: STS_SKIP_SSL_VALIDATION
+          value: "false"
+        - name: STS_STS_URL
+          value: https://172.16.0.2:32115/receiver/stsAgent
+        image: registry.rancher.com/suse-observability/stackstate-k8s-agent:6943bf8c
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: healthport
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: node-agent
+        ports:
+        - containerPort: 8126
+          name: traceport
+          protocol: TCP
+        - containerPort: 5555
+          name: healthport
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: healthport
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 270m
+            memory: 420Mi
+          requests:
+            cpu: 20m
+            memory: 180Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/run/crio/crio.sock
+          name: crisocket
+          readOnly: true
+        - mountPath: /var/run/containerd/containerd.sock
+          name: containerdsocket
+          readOnly: true
+        - mountPath: /var/lib/kubelet
+          name: kubelet
+          readOnly: true
+        - mountPath: /var/lib/nfs
+          name: nfs
+          readOnly: true
+        - mountPath: /var/run/docker.sock
+          name: dockersocket
+          readOnly: true
+        - mountPath: /run/docker/netns
+          name: dockernetns
+          readOnly: true
+        - mountPath: /var/lib/docker/overlay2
+          name: dockeroverlay2
+          readOnly: true
+        - mountPath: /host/proc
+          name: procdir
+          readOnly: true
+        - mountPath: /host/sys/fs/cgroup
+          name: cgroups
+          readOnly: true
+      - env:
+        - name: STS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: sts-api-key
+              name: suse-observability-agent
+        - name: STS_KUBERNETES_KUBELET_HOST
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: KUBERNETES_HOSTNAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: STS_HOSTNAME
+          value: $(KUBERNETES_HOSTNAME)-test0313
+        - name: AGENT_VERSION
+          value: 6bf354da
+        - name: STS_LOG_TO_CONSOLE
+          value: "true"
+        - name: HOST_PROC
+          value: /host/proc
+        - name: HOST_SYS
+          value: /host/sys
+        - name: HOST_ETC
+          value: /host/etc
+        - name: KUBERNETES
+          value: "true"
+        - name: STS_CLUSTER_AGENT_ENABLED
+          value: "true"
+        - name: STS_CLUSTER_AGENT_KUBERNETES_SERVICE_NAME
+          value: suse-observability-agent-cluster-agent
+        - name: STS_CLUSTER_AGENT_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: sts-cluster-auth-token
+              name: suse-observability-agent
+        - name: STS_CLUSTER_NAME
+          value: test0313
+        - name: STS_SKIP_VALIDATE_CLUSTERNAME
+          value: "true"
+        - name: LOG_LEVEL
+          value: INFO
+        - name: STS_LOG_LEVEL
+          value: INFO
+        - name: STS_NETWORK_TRACING_ENABLED
+          value: "true"
+        - name: STS_PROTOCOL_INSPECTION_ENABLED
+          value: "true"
+        - name: STS_PROCESS_AGENT_ENABLED
+          value: "true"
+        - name: STS_CONTAINER_CHECK_INTERVAL
+          value: "28"
+        - name: STS_CONNECTION_CHECK_INTERVAL
+          value: "30"
+        - name: STS_PROCESS_CHECK_INTERVAL
+          value: "32"
+        - name: GOMEMLIMIT
+          value: 340MiB
+        - name: STS_HTTP_STATS_BUFFER_SIZE
+          value: "40000"
+        - name: STS_HTTP_OBSERVATIONS_BUFFER_SIZE
+          value: "40000"
+        - name: STS_PROCESS_AGENT_URL
+          value: https://172.16.0.2:32115/receiver/stsAgent
+        - name: STS_SKIP_SSL_VALIDATION
+          value: "false"
+        - name: STS_SKIP_KUBELET_TLS_VERIFY
+          value: "true"
+        - name: STS_STS_URL
+          value: https://172.16.0.2:32115/receiver/stsAgent
+        - name: STS_HTTP_TRACING_ENABLED
+          value: "true"
+        image: registry.rancher.com/suse-observability/stackstate-k8s-process-agent:6bf354da
+        imagePullPolicy: IfNotPresent
+        name: process-agent
+        ports:
+        - containerPort: 6063
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 125m
+            memory: 400Mi
+          requests:
+            cpu: 25m
+            memory: 128Mi
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/run/crio/crio.sock
+          name: crisocket
+          readOnly: true
+        - mountPath: /var/run/containerd/containerd.sock
+          name: containerdsocket
+          readOnly: true
+        - mountPath: /sys/kernel/debug
+          name: sys-kernel-debug
+        - mountPath: /var/run/docker.sock
+          name: dockersocket
+          readOnly: true
+        - mountPath: /host/etc
+          name: etcdir
+          readOnly: true
+        - mountPath: /host/proc
+          name: procdir
+          readOnly: true
+        - mountPath: /etc/passwd
+          name: passwd
+          readOnly: true
+        - mountPath: /host/sys/fs/cgroup
+          name: cgroups
+          readOnly: true
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      hostPID: true
+      imagePullSecrets:
+      - name: suse-observability-agent-pull-secret
+      nodeSelector:
+        kubernetes.io/os: linux
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: suse-observability-agent-node-agent
+      serviceAccountName: suse-observability-agent-node-agent
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - hostPath:
+          path: /var/lib/kubelet
+          type: ""
+        name: kubelet
+      - hostPath:
+          path: /var/lib/nfs
+          type: ""
+        name: nfs
+      - hostPath:
+          path: /var/lib/docker/overlay2
+          type: ""
+        name: dockeroverlay2
+      - hostPath:
+          path: /run/docker/netns
+          type: ""
+        name: dockernetns
+      - hostPath:
+          path: /var/run/crio/crio.sock
+          type: ""
+        name: crisocket
+      - hostPath:
+          path: /var/run/containerd/containerd.sock
+          type: ""
+        name: containerdsocket
+      - hostPath:
+          path: /sys/kernel/debug
+          type: ""
+        name: sys-kernel-debug
+      - hostPath:
+          path: /var/run/docker.sock
+          type: ""
+        name: dockersocket
+      - hostPath:
+          path: /proc
+          type: ""
+        name: procdir
+      - hostPath:
+          path: /etc
+          type: ""
+        name: etcdir
+      - hostPath:
+          path: /etc/passwd
+          type: ""
+        name: passwd
+      - hostPath:
+          path: /sys/fs/cgroup
+          type: ""
+        name: cgroups
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 100
+    type: RollingUpdate
+status:
+  currentNumberScheduled: 3
+  desiredNumberScheduled: 3
+  numberAvailable: 3
+  numberMisscheduled: 0
+  numberReady: 3
+  observedGeneration: 1
+  updatedNumberScheduled: 3
