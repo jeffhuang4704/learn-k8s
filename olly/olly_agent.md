@@ -55,7 +55,7 @@ spec:
 
 ### helm installation - Install Olly Agents
 
-If you installed the mock API receiver in the previous step, you can extract the IP address and service port and apply them to the stackstate.url below.
+If you installed the mock API receiver in the previous step, you can extract the IP address and service port and apply them to the `stackstate.url` below.
 The following settings will enable the debug log for the agent.
 
 ```
@@ -75,10 +75,8 @@ laborant@dev-machine:~$
 
 Get the node IP an Node service port, format the URL like `https://172.16.0.2:32319`
 
-<details><summary>helm...</summary>
-
 ```
-
+# installation
 helm repo add suse-observability https://charts.rancher.com/server-charts/prime/suse-observability
 helm repo update
 
@@ -99,7 +97,22 @@ suse-observability-agent suse-observability/suse-observability-agent
 
 ```
 
-</details>
+### resources
+
+Please note that the node-agent pod has two containers. One is `node-agent` and the other is `process-agent`
+
+```
+laborant@dev-machine:~$ kubectl get daemonsets -n suse-observability
+NAME                                  DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+suse-observability-agent-logs-agent   3         3         3       3            3           <none>                   32m
+suse-observability-agent-node-agent   👈3         3         3       3            3           kubernetes.io/os=linux   32m
+
+laborant@dev-machine:~$ kubectl get deployments -n suse-observability
+NAME                                     READY   UP-TO-DATE   AVAILABLE   AGE
+suse-observability-agent-checks-agent    1/1     1            1           32m
+suse-observability-agent-cluster-agent   1/1     1            1           32m
+laborant@dev-machine:~$
+```
 
 ### node-agent container in node-agent pod
 
@@ -116,7 +129,6 @@ suse-observability-agent-logs-agent-tfgdn                 1/1     Running   0   
 suse-observability-agent-node-agent-6dcqh                 2/2     Running   0          52s
 suse-observability-agent-node-agent-pxrhv                 2/2     Running   0          52s
 suse-observability-agent-node-agent-rt5fh                 2/2     Running   0          52s
-
 
 ```
 
