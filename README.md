@@ -10,9 +10,11 @@ https://docs.google.com/presentation/d/17RvRa15re2C4BGS00vQ2oJSfPvnBUryYdt7ZWU1a
 
 ### 2025/03/06 - Kubernetes study group, by Sam
 
-Sam introduce the [Kubernetes APIs] concept in the [tutorial](https://github.com/gianlucam76/kubernetes-controller-tutorial/blob/main/docs/custom-resources.md)
+Sam introduce the `Kubernetes APIs` concept in the [tutorial](https://github.com/gianlucam76/kubernetes-controller-tutorial/blob/main/docs/custom-resources.md)
 
 You can find the recording in the Gmail invitation for this session.
+
+You can find additional tutorials from the series at:
 
 ```
 Kubernetes Controller
@@ -27,28 +29,8 @@ https://github.com/gianlucam76/kubernetes-controller-tutorial/blob/main/docs/con
 I took some notes on the basic concepts of Kubernetes custom controllers.
 You can consider these are prerequistic for the material introduce by Sam.
 
-The notes start with how to [access the Kubernetes API using curl](https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/access-api-server.md)
+1️⃣ The notes start with how to [access the Kubernetes API using curl](https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/access-api-server.md)
 
-Next, they cover how ot [manipulate CRDs and CRs without coding](https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/crd-cr-part-1.md)
+2️⃣ Next, how ot [manipulate CRDs and CRs without coding](https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/crd-cr-part-1.md)
 
-Finally, there's an example [demonstrating how to create a simple, hello-world-level custom controller](https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/pdf-document.md). The controller accepts markdown text as input and generates a PDF from the provided markdown.
-
-```
-https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/access-api-server.md
-1️⃣ curl
-2️⃣ kubectl proxy
-3️⃣ Calling Kubernetes API using kubectl raw mode
-4️⃣ kubectl scale deployment sleep --replicas=2 -v 6
-
-Manipulate CRD and CR wihtout coding - Part 1
-https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/crd-cr-part-1.md
-
-Continue from previous post, this introduce how to manipulate CRD and CR without coding.
-
-(Hello World) markdown to pdf controller
-https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/pdf-document.md
-
-```
-
-- [access api server](./notes/access-api-server.md)
-- [manipulate CRD and CR part 1](./notes/crd-cr-part-1.md)
+3️⃣ Finally, there's an example [demonstrating how to create a simple, hello-world-level custom controller](https://github.com/jeffhuang4704/learn-k8s/blob/main/notes/pdf-document.md). The controller accepts markdown text as input and generates a PDF from the provided markdown.
